@@ -1,0 +1,28 @@
+{
+  "name": "full_stack_merng",
+  "version": "1.0.0",
+  "description": "Lesson academy mernG fullstack",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon ./index.js --exec babel-node -e js"
+  },
+  "keywords": [
+    "react",
+    "graphql"
+  ],
+  "author": "JG",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "express-graphql": "^0.9.0",
+    "graphql": "^14.4.2",
+    "nodemon": "^1.19.1"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-stage-0": "^6.24.1",
+    "s": "^0.1.1"
+  }
+}
