@@ -1,4 +1,4 @@
-import { Mongoose } from 'mongoose';
+import mongoose from 'mongoose';
 
 //llamamos por una promesa a mongoose
 mongoose.Promise = global.Promise
@@ -10,12 +10,12 @@ const clientesSchema = new mongoose.Schema({
     nombre: String,
     apellido: String,
     empresa: String,
-    email: String,
+    emails: Array,
     edad: Number,
     tipo: String,
     pedidos: Array
 })
 
-const Clientes = mongoose.model(', clienteSchema')
+const Clientes = mongoose.model('clientes', clientesSchema)
 
-export { Clientes}
+export { Clientes }
