@@ -7,7 +7,6 @@ import {schema} from './data/schema'
 //importo los resolvers del archivo independiente
 import resolvers from './data/resolvers'
 
-
 const app = express()
 const port = 8000
 
