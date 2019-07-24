@@ -23,13 +23,30 @@ export const resolvers = {
                 pedidos: input.pedidos
             })
             nuevoCliente.id = nuevoCliente._id
-             
+
             // Promesa para guardar en bd y recibe un callbak
             return new Promise((resolve, object) => {
                 nuevoCliente.save((error) => {
-                    if(error) rejects(error)
+                    if (error) rejects(error)
                     else resolve(nuevoCliente)
                 })
+            })
+        },
+        
+        // nombre igual que el schema.graphql, para actualizar cliente
+        actualizarCliente: (root, { input }) => {
+            return new Promise((resolve, object) => {
+                // con un metodo de mongoose buscamos el _id de mongo
+                // filtro, valor ,opciones  -new true crea un archivo nuevo si no tiene ese id
+                Clientes.findOneAndUpdate(
+                    {_id: input.id},
+                    input,
+                    { new: true },
+                    (error, cliente) => {
+                        if (error) rejects(error)
+                        else resolve(cliente)
+                    }
+                )
             })
         }
     }
