@@ -24,6 +24,11 @@ type Cliente {
     }
 
     type Query {
+        #Este query trae un limite configurable de mongoose
+        #para traer todos los clientes
+        getClientes(limite: Int) : [Cliente]
+
+        #Este query llama un cliente por el ID
         getCliente(id: ID): Cliente
     }
 
@@ -35,7 +40,7 @@ type Cliente {
         email: String
     }
 
-    """ CAmpos para clientes que se registran por primera vez """
+    """ Campos para clientes que se registran por primera vez """
     input ClienteInput {
         id: ID
         nombre: String!
@@ -52,5 +57,8 @@ type Cliente {
         # Nombre del resolver, input con datos y valor que retorna
         """ Te permite crear nuevos clientes """
         crearCliente(input: ClienteInput) : Cliente
+        """ Este mutation permite actualizar datos """
         actualizarCliente(input: ClienteInput) : Cliente
+        """ Mutation para eliminar cliente"""
+        eliminarCliente( id: ID! ) : String
     }
