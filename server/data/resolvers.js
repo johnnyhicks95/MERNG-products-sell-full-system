@@ -9,6 +9,7 @@ export const resolvers = {
 
         //para enlistar todos los clientes
         getClientes: ( root, { limite }) => {
+            //limit es un metodo de mongoose
             return Clientes.find( {} ).limit(limite)
         },
 

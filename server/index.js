@@ -15,13 +15,14 @@ import { resolvers } from './data/resolvers'
 const app = express()
 const server = new ApolloServer( {typeDefs, resolvers } )
 
-server. applyMiddleware( { app} )
+server.applyMiddleware( { app} )
 
 app.listen ( 
     {port: 4000},
      () => console.log(`
      El servidor está corriendo en http://localhost:4000${server.graphqlPath}
-     `))
+     `)
+)
 
 /* Codigo que no se usa por la configuracion de apollo server
 const port = 8000
