@@ -7,13 +7,18 @@ import { CLIENTES_QUERY } from '../queries'
  
 const Contactos = () => (
     //query es un metodo de react-apollo que se pasa como parametro
-    <Query query={CLIENTES_QUERY}>
+    <Query query={CLIENTES_QUERY}
+    //define el intervalo de tiempo que va a hacer la peticion a la base de datos
+    pollInterval={1000}
+    >
         {/* estos parametros ajustan
         loading: un mensaje mientras carga los datos
         error: lo que se muestra en la base de datos
         data: los datos en si
         */}
-        {( { loading, error, data  } ) => {
+        {/* startPllon y stop son metodos de poll interval que deben pasarse como parametros */}
+        
+        {( { loading, error, data , startPolling , stopPolling } ) => {
             if(loading) return "Cargando ..."
             if(error) return `Error: ${error.message}`
             console.log(data.getClientes)   
