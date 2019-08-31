@@ -42,7 +42,7 @@ class NuevoCliente extends Component {
     nuevoCampo = () => {
         // console.log('hiciste click')
         this.setState({
-            emails: this.state.concat( [{email: ''}] )
+            emails: this.state.emails.concat( [{email: ''}] )
         })
     }
 
@@ -187,17 +187,17 @@ class NuevoCliente extends Component {
                                                 <button
                                                 type="button"
                                                 className="btn btn-danger"
-                                                onclick={this.quitarCampo(index)}
+                                                onClick={this.quitarCampo(index)}
                                                 > &times; Eliminar </button>
                                             </div>
                                         </div>
                                     </div>
                                 ) )}
-                                <div classname="form-group d-flex justify-content-center col-md-12">
+                                <div className="form-group d-flex justify-content-center col-md-12">
                                     <button
                                     type="button"
                                     className="btn btn-warning"
-                                    onclick={this.nuevoCampo}
+                                    onClick={this.nuevoCampo}
                                     >+ Agregar email</button>
                                 </div>
                                 

@@ -21,7 +21,7 @@ const Contactos = () => (
         {( { loading, error, data , startPolling , stopPolling } ) => {
             if(loading) return "Cargando ..."
             if(error) return `Error: ${error.message}`
-            console.log(data.getClientes)   
+            // console.log(data.getClientes)   
 
             return (
                 <Fragment>
