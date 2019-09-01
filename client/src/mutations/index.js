@@ -9,3 +9,20 @@ mutation crearCliente( $input: ClienteInput ) {
   }
 }
 `
+
+//del codigo probado del playground copio y pego el mutation
+export const ACTUALIZAR_CLIENTE = gql`
+  mutation actualizarCliente($input : ClienteInput){
+    actualizarCliente(input: $input) {
+      id
+      nombre
+      apellido
+      edad
+      empresa
+      tipo
+      emails {
+        email
+      }
+    }
+  }
+`
