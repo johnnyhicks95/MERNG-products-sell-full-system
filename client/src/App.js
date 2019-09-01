@@ -1,6 +1,6 @@
 import React, { Fragment} from 'react';
 import { ApolloProvider } from 'react-apollo'
-import ApolloClient from 'apollo-boost'
+import ApolloClient, { InMemoryCache } from 'apollo-boost'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
 //importar components
@@ -12,6 +12,10 @@ import NuevoCliente from './components/nuevoCliente'
 const client = new ApolloClient({
   //configuro el puerto del server para acceder a los schemas,resolvers, conecciones a mongo ...
   uri: "http://localhost:4000/graphql",
+  //hago algo de cache de apollo boost
+  cache: new InMemoryCache({
+    addTypename: false
+  }),
   // Para manejar error apollo mandara a consola el problema
   onError:  ({ networkError, graphQLErrors}) => {
     console.log('graphQLErrors', graphQLErrors)

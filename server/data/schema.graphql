@@ -46,7 +46,7 @@ type Cliente {
         nombre: String!
         apellido: String!
         empresa: String
-        emails: [EmailInput]
+        emails: [EmailInput] 
         edad: Int
         tipo: TipoCliente
         pedidos: [PedidoInput]
