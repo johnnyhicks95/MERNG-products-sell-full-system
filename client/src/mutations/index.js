@@ -26,3 +26,10 @@ export const ACTUALIZAR_CLIENTE = gql`
     }
   }
 `
+
+//eliminar los datos del ciente por el id
+export const ELIMINAR_CLIENTE = gql`
+  mutation eliminarCliente($id: ID!) {
+    eliminarCliente( id: $id )
+  }
+`

@@ -1,9 +1,10 @@
 import React, { Fragment } from 'react'
-import { Query } from 'react-apollo'
+import { Query, Mutation } from 'react-apollo'
 import {Link } from 'react-router-dom'
 
 //importo la consulta
 import { CLIENTES_QUERY } from '../queries'
+import { ELIMINAR_CLIENTE } from '../mutations'
  
 const Contactos = () => (
     //query es un metodo de react-apollo que se pasa como parametro
@@ -27,21 +28,44 @@ const Contactos = () => (
                 <Fragment>
                     <h2 className="text-center ">Listado de clientes</h2>
                     <ul className="list-group ">
-                        {data.getClientes.map(item => (
+                        {data.getClientes.map(item => {
+                            //no envia la funcion implicito el return ()
+                            const {id} = item
+
+                            //retorno el componente por problema de id
+                            return(
                             <li key={item.id} className="list-group-item">
                                 <div className="row justify-content-between align-items-center">
                                     <div className="col-md-8 d-flex justify-content-between align-items-center">
                                         {item.nombre} {item.apellido} - {item.empresa}
                                     </div>
                                     <div className="col-md-4 d-flex justify-content-end">
+                                        <Mutation mutation={ELIMINAR_CLIENTE}>
+                                            {eliminarCliente => (
+                                                <button type="button" 
+                                                className="btn btn-danger d-block d-md-inline-block mr-2"
+                                                //evento para obtener el id del que vamos a eliminar
+                                                onClick={ () => {
+                                                    // console.log(item.id)
+                                                    if(window.confirm('Seguro que deseas eliminar este cliente?')) {
+                                                        eliminarCliente({
+                                                            variables: {id}
+                                                        })
+                                                    }
+                                                }}
+                                                >
+                                                &times;Eliminar
+                                                </button>
+                                            )}
+                                        </Mutation>
                                         <Link to={`/cliente/editar/${item.id}`} className="btn btn-success d-block d-md-inline-block">
                                             Editar cliente
                                         </Link>
 
                                     </div>
                                 </div>
-                            </li>
-                        ))}
+                            </li>)
+                        })}
                     </ul>
                 </Fragment>
             )
