@@ -26,10 +26,14 @@ type Cliente {
     type Query {
         #Este query trae un limite configurable de mongoose
         #para traer todos los clientes
-        getClientes(limite: Int) : [Cliente]
+        #al offset un int
+        getClientes(limite: Int, offset: Int) : [Cliente]
 
         #Este query llama un cliente por el ID
         getCliente(id: ID): Cliente
+
+        #Nuevo metodo para contar el total de documentos
+        totalClientes: String
     }
 
     input PedidoInput {

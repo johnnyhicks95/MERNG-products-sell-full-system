@@ -1,16 +1,60 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, Component } from 'react'
 import { Query, Mutation } from 'react-apollo'
 import {Link } from 'react-router-dom'
 
 //importo la consulta
 import { CLIENTES_QUERY } from '../queries'
 import { ELIMINAR_CLIENTE } from '../mutations'
+
+//Componentes adicionales
+import Paginador from './Paginador'
  
-const Contactos = () => (
+// antes era un componente sin estado
+class Clientes extends Component {
+    //limite de la cantidad que va a manejar
+    limite = 3
+    //guardo el paginador modificado el offse ten el s chem.gql y resolver
+    state = {
+        paginador: {
+            offset: 0,
+            actual: 1
+        }
+    }
+
+    //pmetodos para controlar los botones
+    paginaAnterior = () =>  {
+        // console.log('anterior')
+        this.setState({
+            paginador: {
+                offset: this.state.paginador.offset - this.limite,
+                actual: this.state.paginador.actual - 1
+            }
+        })
+    }
+
+    paginaSiguiente = () => {
+        // console.log('siguiente')
+        this.setState({
+            paginador: {
+                offset: this.state.paginador.offset + this.limite,
+                actual: this.state.paginador.actual + 1
+            }
+        })
+    }
+
+
+    render(){
+        return(
+    
     //query es un metodo de react-apollo que se pasa como parametro
     <Query query={CLIENTES_QUERY}
     //define el intervalo de tiempo que va a hacer la peticion a la base de datos
     pollInterval={1000}
+    //paso la siguiente query para paginar: limite y offset de getClientes
+    variables = { {
+        limite: this.limite,
+        offset: this.state.paginador.offset
+    }}
     >
         {/* estos parametros ajustan
         loading: un mensaje mientras carga los datos
@@ -22,7 +66,7 @@ const Contactos = () => (
         {( { loading, error, data , startPolling , stopPolling } ) => {
             if(loading) return "Cargando ..."
             if(error) return `Error: ${error.message}`
-            // console.log(data.getClientes)   
+            // console.log(data)   
 
             return (
                 <Fragment>
@@ -67,10 +111,23 @@ const Contactos = () => (
                             </li>)
                         })}
                     </ul>
+
+                    <Paginador 
+                        actual={this.state.paginador.actual}
+                        // llamo el total de clientes queri
+                        totalClientes={data.totalClientes}
+                        //paso el limite para regular el paginador la cantidad
+                        limite={this.limite}
+                        //paso los metodos
+                        paginaAnterior = {this.paginaAnterior}
+                        paginaSiguiente = {this.paginaSiguiente}
+                    />
                 </Fragment>
             )
         } }
     </Query>
-)
+        )
+    }
+}
 
-export default Contactos
+export default Clientes

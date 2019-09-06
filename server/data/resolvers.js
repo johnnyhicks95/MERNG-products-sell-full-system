@@ -8,9 +8,11 @@ export const resolvers = {
     Query: {
 
         //para enlistar todos los clientes
-        getClientes: ( root, { limite }) => {
+        //paso offset para la paginacion
+        getClientes: ( root, { limite, offset }) => {
             //limit es un metodo de mongoose
-            return Clientes.find( {} ).limit(limite)
+            // metodo skip con el offset
+            return Clientes.find( {} ).limit(limite).skip(offset)
         },
 
         //trae un cliente segun el modelo de mongoose
@@ -24,7 +26,19 @@ export const resolvers = {
                 })
             } )
         },
+
+        //una nueva consulta para obtener el total de clientes en la bd
+        totalClientes: (root) => {
+            return new Promise((resolve, reject) => {
+                //Del modelo clientes usamos un metodo de mongoose
+                Clientes.countDocuments( {}, (error, count) => {
+                    if(error) rejects(error)
+                    else resolve(count)
+                } )
+            })
+        }
     },
+    
     Mutation: {
         crearCliente: (root, { input }) => {
             // viene desde debugger.js el objeto clientes
