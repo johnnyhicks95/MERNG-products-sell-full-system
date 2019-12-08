@@ -17,6 +17,14 @@ type Cliente {
         email: String
     }
 
+
+    type Producto {
+        id: ID
+        nombre: String!
+        precio: Int!
+        stock: Int!
+    }
+
     """ Asigna que tipo de cliente es """
     enum TipoCliente {
         BASICO
@@ -56,6 +64,14 @@ type Cliente {
         pedidos: [PedidoInput]
     }
 
+    # Nuevo input debe ser igual al del resolver
+    input ProductoInput {
+        id: ID
+        nombre: String!
+        precio: Int!
+        stock: Int!
+    }
+
     """ Mutation para crear nuevos clientes """
     type Mutation {
         # Nombre del resolver, input con datos y valor que retorna
@@ -65,4 +81,6 @@ type Cliente {
         actualizarCliente(input: ClienteInput) : Cliente
         """ Mutation para eliminar cliente"""
         eliminarCliente( id: ID! ) : String
+        #productos
+        nuevoProducto(input: ProductoInput): Producto
     }

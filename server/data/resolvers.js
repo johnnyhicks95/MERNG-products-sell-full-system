@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { Clientes } from './db'
+import { Clientes, Productos } from './db'
 import { rejects } from 'assert'
 
 
@@ -89,8 +89,31 @@ export const resolvers = {
                     else resolve("El dato del cliente se eliminó correctamente")
                 } )
             })
-        }
+        },
 
+
+        /* *************
+        Nuevos Productos
+
+        ************ */
+       nuevoProducto: (root, { input }) => {
+           const nuevoProducto  = new Productos({
+               nombre: input.nombre, 
+               precio: input.precio,
+               stock: input.stock
+           })
+
+           // mongoDB crea el ID que se asigna al objeto
+           nuevoProducto.id = nuevoProducto._id;
+
+           return new Promise( (resolve, object) => {
+               // para guardar en la base de datos
+               nuevoProducto.save((error) => {
+                   if ( error ) rejects ( error )
+                   else resolve( nuevoProducto )
+               })
+           })
+       }
 
     }
 }
