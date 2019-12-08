@@ -12,8 +12,9 @@ import Paginador from './Paginador'
 // antes era un componente sin estado
 class Clientes extends Component {
     //limite de la cantidad que va a manejar
-    limite = 3
+    limite = 8
     //guardo el paginador modificado el offse ten el s chem.gql y resolver
+    // guardo en el estado el offset
     state = {
         paginador: {
             offset: 0,
@@ -67,6 +68,7 @@ class Clientes extends Component {
             if(loading) return "Cargando ..."
             if(error) return `Error: ${error.message}`
             // console.log(data)   
+            // console.log(data.getClientesgit)   
 
             return (
                 <Fragment>
@@ -85,6 +87,7 @@ class Clientes extends Component {
                                     </div>
                                     <div className="col-md-4 d-flex justify-content-end">
                                         <Mutation mutation={ELIMINAR_CLIENTE}>
+                                            {/* // paso la funcion del mutation, del resolver */}
                                             {eliminarCliente => (
                                                 <button type="button" 
                                                 className="btn btn-danger d-block d-md-inline-block mr-2"
@@ -93,6 +96,7 @@ class Clientes extends Component {
                                                     // console.log(item.id)
                                                     if(window.confirm('Seguro que deseas eliminar este cliente?')) {
                                                         eliminarCliente({
+                                                            //mando la variable como objeto
                                                             variables: {id}
                                                         })
                                                     }

@@ -22,7 +22,7 @@ class Paginador extends Component {
         const btnSiguiente = (actual !== paginas)
         ? <button type="button" className="btn btn-success"
             onClick={this.props.paginaSiguiente}
-            >Siguiente &laquo;</button>
+            >Siguiente &raquo;</button>
         : ''
 
         // guardo en una cosntante el algoritmo de division de paginas

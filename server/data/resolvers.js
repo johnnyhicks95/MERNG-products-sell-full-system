@@ -30,7 +30,7 @@ export const resolvers = {
         //una nueva consulta para obtener el total de clientes en la bd
         totalClientes: (root) => {
             return new Promise((resolve, reject) => {
-                //Del modelo clientes usamos un metodo de mongoose
+                //Del modelo clientes usamos un metodo de mongoose para saber el total de datos
                 Clientes.countDocuments( {}, (error, count) => {
                     if(error) rejects(error)
                     else resolve(count)
