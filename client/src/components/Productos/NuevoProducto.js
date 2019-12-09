@@ -3,14 +3,26 @@ import React, { Component } from 'react'
 import { NUEVO_PRODUCTO } from '../../mutations'
 import { Mutation } from 'react-apollo'
 
+// funcion para reiniciar el estado
+const initialState = {
+    nombre: '',
+    precio: '',
+    stock: ''
+}
+
 class NuevoProducto extends Component {
     // OTRA MANERA DE MANEJAR LOS ESTADOS
     // uso de atributos etiqueta name como variable
     state = {
-        nombre: '',
-        precio: '',
-        stock: ''
+        // spread estado inicial, hace una copia de la variable y lo asgina aqui
+        ...initialState
+    }
 
+    // funcion invoca la variable inicial
+    limpiarState = () => {
+        this.setState({
+            ...initialState
+        })
     }
 
     // ***************
@@ -37,14 +49,17 @@ class NuevoProducto extends Component {
 
     // FUNCION PARA CREAR LA DATA DE NUEVO PRODUCTO
     // nuevoProdcuto es la del resolver
-    crearNuevoProducto = ( e, nuevoProducto) => {
+    crearNuevoProducto = (e, nuevoProducto) => {
         e.preventDefault()
 
-         // insertamos en la base de datos
-         nuevoProducto().then(data => {
-            console.log(data)
-            
-         })
+        // insertamos en la base de datos
+        nuevoProducto().then(data => {
+            // console.log(data)
+            this.limpiarState()
+
+            // redirecciono despues de crear el producto
+            this.props.history.push('/productos')
+        })
     }
 
     // FUN FUNCIONES
@@ -71,15 +86,15 @@ class NuevoProducto extends Component {
                     <Mutation
                         // OBjeto nuevo producto
                         mutation={NUEVO_PRODUCTO}
-                        variables = { { input }}
+                        variables={{ input }}
                     >
                         {/* ApoloClien:     mutation siempre espera recibir primero una funcion */}
                         {(nuevoProducto, { loading, error, data }) => {
-                            return ( 
+                            return (
 
                                 <form
                                     className="col-md-8"
-                                    onSubmit = {e => this.crearNuevoProducto(e, nuevoProducto)}
+                                    onSubmit={e => this.crearNuevoProducto(e, nuevoProducto)}
                                 >
                                     <div className="form-group">
                                         <label>Nombre:</label>

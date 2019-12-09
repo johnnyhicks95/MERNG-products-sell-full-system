@@ -10,6 +10,8 @@ import EditarCliente from './components/Clientes/EditarCliente'
 import NuevoCliente from './components/Clientes/NuevoCliente'
 
 import NuevoProducto from './components/Productos/NuevoProducto'
+import Productos from './components/Productos/Productos'
+import EditarProducto from './components/Productos/EditarProducto'
 
 const client = new ApolloClient({
   //configuro el puerto del server para acceder a los schemas,resolvers, conecciones a mongo ...
@@ -39,6 +41,8 @@ function App() {
               <Route exact path="/cliente/editar/:id" component={EditarCliente} />
               <Route exact path="/cliente/nuevo" component={NuevoCliente} />
               <Route exact path="/productos/nuevo" component={NuevoProducto} />
+              <Route exact path="/productos" component={Productos} />
+              <Route exact path="/productos/editar/:id" component={EditarProducto} />
             </Switch>  
           </div>
         </Fragment>
