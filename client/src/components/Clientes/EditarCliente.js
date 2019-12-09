@@ -1,9 +1,9 @@
 import React, { Component, Fragment } from 'react'
-import { CLIENTE_QUERY } from '../queries'
+import { CLIENTE_QUERY } from '../../queries'
 //metodo de react apollo para realizar el queri
 import { Query } from 'react-apollo'
 
-import FormularioEditarCliente from './formularioEditarCliente';
+import FormularioEditarCliente from '../Clientes/FormularioEditarCliente';
 
 class EditarCliente extends Component {
     state = {}

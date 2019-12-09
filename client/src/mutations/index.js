@@ -33,3 +33,13 @@ export const ELIMINAR_CLIENTE = gql`
     eliminarCliente( id: $id )
   }
 `
+
+// del mutation para crear u nuevo producto
+export const NUEVO_PRODUCTO = gql `
+mutation nuevoProducto($input : ProductoInput ){
+  nuevoProducto( input: $input ) {
+    id
+    nombre
+  }
+}
+`

@@ -4,10 +4,12 @@ import ApolloClient, { InMemoryCache } from 'apollo-boost'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
 //importar components
-import Header from './components/header'
-import Clientes from './components/clientes'
-import EditarCliente from './components/editarCliente'
-import NuevoCliente from './components/nuevoCliente'
+import Header from './components/Layout/Header'
+import Clientes from './components/Clientes/Clientes'
+import EditarCliente from './components/Clientes/EditarCliente'
+import NuevoCliente from './components/Clientes/NuevoCliente'
+
+import NuevoProducto from './components/Productos/NuevoProducto'
 
 const client = new ApolloClient({
   //configuro el puerto del server para acceder a los schemas,resolvers, conecciones a mongo ...
@@ -34,8 +36,9 @@ function App() {
           <div className="container">
             <Switch>
               <Route exact path="/" component={Clientes} />
-              <Route exact path="/cliente/nuevo" component={NuevoCliente} />
               <Route exact path="/cliente/editar/:id" component={EditarCliente} />
+              <Route exact path="/cliente/nuevo" component={NuevoCliente} />
+              <Route exact path="/productos/nuevo" component={NuevoProducto} />
             </Switch>  
           </div>
         </Fragment>

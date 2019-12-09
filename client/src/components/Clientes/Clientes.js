@@ -3,11 +3,11 @@ import { Query, Mutation } from 'react-apollo'
 import {Link } from 'react-router-dom'
 
 //importo la consulta
-import { CLIENTES_QUERY } from '../queries'
-import { ELIMINAR_CLIENTE } from '../mutations'
+import { CLIENTES_QUERY } from '../../queries'
+import { ELIMINAR_CLIENTE } from '../../mutations'
 
 //Componentes adicionales
-import Paginador from './Paginador'
+import Paginador from '../Paginador'
  
 // antes era un componente sin estado
 class Clientes extends Component {
