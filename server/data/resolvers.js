@@ -36,6 +36,21 @@ export const resolvers = {
                     else resolve(count)
                 } )
             })
+        },
+
+        //***********de los productos******* */
+        obtenerProductos : ( root, { limite, offset }) => {
+            return Productos.find({}).limit(limite).skip(offset)
+        },
+        // un solo producto como consulta a mongo
+        obtenerProducto : ( root, { id }) => {
+            return new Promise( (resolve, object) => {
+                Productos.findById(id, (error , producto ) => {
+                    // producto es el resultado de la consulta
+                    if (error) rejects (error)
+                    else resolve ( producto )
+                })
+            })
         }
     },
     
@@ -84,7 +99,7 @@ export const resolvers = {
         //Mutation para eliminar cliente por id segun schema.graphql
         eliminarCliente: (root, { id }) => {
             return new Promise( (resolve, object ) => {
-                Clientes.findOneAndRemove( {_id: id }, (error ) =>{
+                Clientes.findOneAndDelete( {_id: id }, (error ) =>{
                     if (error) rejects (error)
                     else resolve("El dato del cliente se eliminó correctamente")
                 } )
@@ -111,6 +126,27 @@ export const resolvers = {
                nuevoProducto.save((error) => {
                    if ( error ) rejects ( error )
                    else resolve( nuevoProducto )
+               })
+           })
+       },
+
+       // actualizar producto
+       actualizarProducto : (root, {input}) => {
+           return new Promise(( resolve, producto ) => {
+               // { que se vaa actualizar} , con que quiero que actualize; si no existe, crealo, el callback
+               // ( { 1 }, 2 , 3 , 4 )
+                Productos.findOneAndUpdate( { _id: input.id }, input, {new: true}, (error, producto) => {
+                    if ( error ) rejects ( error)
+                    else resolve ( producto )
+                } )
+           })
+       },
+       // ELIMINAR PRODUCTO
+       eliminarProducto : ( root, {id} ) => {
+           return new Promise ( (resolve, producto ) => {
+               Productos.findOneAndDelete({ _id : id } , (error) => {
+                   if ( error ) rejects ( error)
+                   else resolve ( 'El producto se elimino correctamente! ' )
                })
            })
        }

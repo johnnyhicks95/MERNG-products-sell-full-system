@@ -42,6 +42,11 @@ type Cliente {
 
         #Nuevo metodo para contar el total de documentos
         totalClientes: String
+
+        #****************
+        # PRODUCTOS
+        obtenerProductos(limite: Int, offset: Int) : [Producto]
+        obtenerProducto(id: ID!): Producto
     }
 
     input PedidoInput {
@@ -83,4 +88,6 @@ type Cliente {
         eliminarCliente( id: ID! ) : String
         #productos
         nuevoProducto(input: ProductoInput): Producto
+        actualizarProducto(input: ProductoInput): Producto
+        eliminarProducto( id: ID! ) : String 
     }
