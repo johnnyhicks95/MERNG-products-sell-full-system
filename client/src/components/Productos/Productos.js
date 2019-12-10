@@ -1,19 +1,36 @@
 import React, { Component } from 'react'
 
-import { Query } from 'react-apollo'
+import { Query, Mutation } from 'react-apollo'
 import { Link } from 'react-router-dom'
 // query de productos
 import { OBTENER_PRODUCTOS } from '../../queries'
+import { ELIMINAR_PRODUCTO } from '../../mutations'
+import Exito from '../Alertas/Exito'
+
 
 class Productos extends Component {
     state = {
-
+        // estado para mostrar la alerta
+        alerta: {
+            mostrar: false,
+            mensaje: ''
+        }
     }
 
     render() {
+
+        const { alerta: { mostrar, mensaje} } = this.state
+
+        const alerta = ( mostrar ) 
+            ? <Exito mensaje={ mensaje }/> 
+            : ''
+
         return (
             <>
                 <h1 className="text-center mb-5">Productos</h1>
+
+                {/* // la alerta de que se elimino el mensaje */}
+                {alerta}
 
                 <Query
                     query={OBTENER_PRODUCTOS}
@@ -49,9 +66,49 @@ class Productos extends Component {
                                                 <td>{item.precio}</td>
                                                 <td>{item.stock}</td>
                                                 <td>
-                                                    <button type="button" className="btn btn-danger">
-                                                        &times; Eliminar
-                                        </button>
+                                                    <Mutation 
+                                                        mutation={ELIMINAR_PRODUCTO}
+                                                        // para mandar el mensaje que viende desde el resolver
+                                                        // lo que se configuro y tambien en el schema
+                                                        onCompleted={( data ) => {
+                                                            // console.log(data)
+                                                            this.setState({
+                                                                alerta: {
+                                                                    mostrar: true,
+                                                                    mensaje: data.eliminarProducto
+                                                                }
+                                                            }, ()=> {
+                                                                setTimeout( () => {
+                                                                    // con este callback reseteo el estado
+                                                                    //para eliminar el mensaje de alerta
+                                                                    this.setState({
+                                                                        alerta: {
+                                                                            mostrar: false,
+                                                                            mensaje: ''
+                                                                        }
+                                                                    })
+                                                                }, 3000)
+                                                            })
+                                                        }}
+                                                        >
+                                                        {eliminarProducto => (
+                                                            <button
+                                                                type="button" 
+                                                                className="btn btn-danger"
+                                                                onClick={ () => {
+                                                                    if(window.confirm('Seguro que deseas eliminar este producto?')) {
+
+                                                                        eliminarProducto({
+                                                                            variables: { id } 
+                                                                        })
+                                                                    }
+                                                                }}
+                                                            >
+                                                                &times; Eliminar
+                                                            </button>
+                                                        )
+                                                        }
+                                                    </Mutation>
                                                 </td>
                                                 <td>
                                                     <Link
