@@ -41,7 +41,8 @@ class Productos extends Component {
                         if (loading) return "Cargando ... "
                         if (error) return `Error : ${error.message}`
 
-                        console.log(data.obtenerProductos)
+                        //compruebo que me llegue la data en consola
+                        // console.log(data.obtenerProductos)
 
                         return (
                             <table className="table">
@@ -112,11 +113,12 @@ class Productos extends Component {
                                                 </td>
                                                 <td>
                                                     <Link
-                                                        to={`/productis/editar/${id}`}
+                                                        to={`/productos/editar/${id}`}
+                                                        // /productos/editar/:id
                                                         className="btn btn-success"
                                                     >
                                                         Editar producto
-                                        </Link>
+                                                    </Link>
                                                 </td>
                                             </tr>
 

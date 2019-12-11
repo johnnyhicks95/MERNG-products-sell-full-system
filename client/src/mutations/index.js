@@ -50,3 +50,13 @@ export const ELIMINAR_PRODUCTO = gql`
     eliminarProducto(id  :$id ) 
   }
 `
+// para actualizar producto desde el formulario
+ export const ACTUALIZAR_PRODUCTO = gql `
+  mutation actualizarProducto ($input : ProductoInput){
+  actualizarProducto(input :$input ) {
+    nombre
+    precio
+    stock
+  }
+}
+ `
