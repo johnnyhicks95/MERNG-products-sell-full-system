@@ -100,6 +100,15 @@ class Clientes extends Component {
                                                     {item.nombre} {item.apellido} - {item.empresa}
                                                 </div>
                                                 <div className="col-md-4 d-flex justify-content-end">
+
+                                                    {/* link para hacer pedidos paso el id del  */}
+                                                    <Link 
+                                                        to={`/pedidos/nuevo/${id}`}
+                                                        className="btn btn-warning d-block d-md-inline-block mr-2"
+                                                        >
+                                                        &#43; Nuevo pedido    
+                                                    </Link>
+
                                                     <Mutation mutation={ELIMINAR_CLIENTE}
                                                         // para mandar el mensaje que viende desde el resolver
                                                         // lo que se configuro y tambien en el schema
