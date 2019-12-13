@@ -93,7 +93,7 @@ class NuevoProducto extends Component {
                             return (
 
                                 <form
-                                    className="col-md-8"
+                                    className="col-md-8 "
                                     onSubmit={e => this.crearNuevoProducto(e, nuevoProducto)}
                                 >
                                     <div className="form-group">

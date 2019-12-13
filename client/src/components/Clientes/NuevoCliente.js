@@ -69,11 +69,12 @@ class NuevoCliente extends Component {
 
             {/* aqui va el mensaje de la validacion como codigo js */}
                 { respuesta }
-                <div className="col-md-8 m-3">
+                {/* <div className="col-md-8 m-3"> */}
+                <div className="row justify-content-center">
                     {/* llamo la configuracion mutation de apollo */}
                     <Mutation mutation={NUEVO_CLIENTE}
                     //onCompleted: de apollo client, es un metodo que puede redirigir a la direccion que se de
-                        onCompleted={() => this.props.history.push('/')}
+                        onCompleted={() => this.props.history.push('/clientes')}
                     >
                         { crearCliente =>  ( 
 

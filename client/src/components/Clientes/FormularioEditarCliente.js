@@ -52,7 +52,7 @@ class FormularioEditarCliente extends Component {
 
             //haciendo uso de refetch desde el componente padre
             onCompleted = { () => this.props.refetch().then(() =>{
-                this.props.history.push('/')
+                this.props.history.push('/clientes')
             })}
             >
                 {/* en una funcion tomo la informacion para enviarla a la bd */}

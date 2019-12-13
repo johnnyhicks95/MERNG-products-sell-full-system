@@ -37,9 +37,10 @@ function App() {
           <Header />
           <div className="container">
             <Switch>
-              <Route exact path="/" component={Clientes} />
-              <Route exact path="/cliente/editar/:id" component={EditarCliente} />
-              <Route exact path="/cliente/nuevo" component={NuevoCliente} />
+              <Route exact path="/clientes" component={Clientes} />
+              <Route exact path="/clientes/editar/:id" component={EditarCliente} />
+              <Route exact path="/clientes/nuevo" component={NuevoCliente} />
+
               <Route exact path="/productos/nuevo" component={NuevoProducto} />
               <Route exact path="/productos" component={Productos} />
               <Route exact path="/productos/editar/:id" component={EditarProducto} />
