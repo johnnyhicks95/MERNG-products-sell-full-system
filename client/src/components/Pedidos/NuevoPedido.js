@@ -32,7 +32,7 @@ class NuevoPedido extends Component {
                             {({ loading, error, data }) => {
                                 // of loading muestra spinner
                                 if (loading) return (
-                                    <div class="sk-fading-circle">
+                                    <div className="sk-fading-circle">
                                         <div className="sk-circle1 sk-circle"></div>
                                         <div className="sk-circle2 sk-circle"></div>
                                         <div className="sk-circle3 sk-circle"></div>
@@ -50,7 +50,7 @@ class NuevoPedido extends Component {
 
                                 if(error) return `Error ${error.message}`
 
-                                console.log(data)
+                                // console.log(data)
 
                                 return (
                                     <ContenidoPedido
