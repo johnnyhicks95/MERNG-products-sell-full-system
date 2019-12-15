@@ -1,6 +1,6 @@
 import gql from 'graphql-tag'
 
-export const NUEVO_CLIENTE = gql `
+export const NUEVO_CLIENTE = gql`
 mutation crearCliente( $input: ClienteInput ) {
   crearCliente(input: $input ) {
     id 
@@ -35,7 +35,7 @@ export const ELIMINAR_CLIENTE = gql`
 `
 
 // del mutation para crear u nuevo producto
-export const NUEVO_PRODUCTO = gql `
+export const NUEVO_PRODUCTO = gql`
   mutation nuevoProducto($input : ProductoInput ){
     nuevoProducto( input: $input ) {
       id
@@ -51,12 +51,29 @@ export const ELIMINAR_PRODUCTO = gql`
   }
 `
 // para actualizar producto desde el formulario
- export const ACTUALIZAR_PRODUCTO = gql `
+export const ACTUALIZAR_PRODUCTO = gql`
   mutation actualizarProducto ($input : ProductoInput){
   actualizarProducto(input :$input ) {
     nombre
     precio
     stock
+  }
+}
+ `
+
+// **********
+// PEDIDOS
+export const NUEVO_PEDIDO = gql`
+  mutation nuevoPedido($input: PedidoInput){
+  nuevoPedido(input: $input ){
+    id
+    # total
+    # fecha
+    # pedido{    
+    #   cantidad
+    #   id
+    # }
+    
   }
 }
  `

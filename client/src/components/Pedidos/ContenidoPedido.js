@@ -2,8 +2,9 @@ import React, { Component } from 'react'
 import Select from 'react-select'
 // import Animated from 'react-select/lib/animated'
 import Resumen from './Resumen'
+import GenerarPedido from './GenerarPedido'
 
-
+import Error from '../Alertas/Error'
 
 /* const options = [
     { value: 'chocolate', label:'Chocolate' }
@@ -84,9 +85,16 @@ class ContenidoPedido extends Component {
     // FIN METODOS **********
 
     render() {
+
+        const mensaje = (this.state.total < 0 )
+                        ? <Error error="Las cantidades no pueden ser negativas"/>
+                        : '' 
         return (
-            <>
+            <>  
                 <h2 className="text-center mb-5">Seleccionar articulos</h2>
+
+                { mensaje }
+
                 <Select
                     onChange={this.seleccionarProducto} // para pasar a lestado
                     options={this.props.productos} // paso las opciones a mostrar desde el nuevo pedido
@@ -111,6 +119,12 @@ class ContenidoPedido extends Component {
                         $ {this.state.total}
                     </span>
                 </p>
+
+                <GenerarPedido 
+                    productos={this.state.productos} // paso como props al component
+                    total={this.state.total}
+                    idCliente={this.props.id}
+                />
             </>
         )
     }

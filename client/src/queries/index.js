@@ -30,8 +30,8 @@ query ConsultarCliente($id:ID){
 
 // PRODUCTOS
 export const OBTENER_PRODUCTOS = gql `
-  query obtenerProductos($limite: Int, $offset: Int){
-  obtenerProductos(limite: $limite, offset: $offset){
+  query obtenerProductos($limite: Int, $offset: Int , $stock: Boolean ){
+  obtenerProductos(limite: $limite, offset: $offset , stock: $stock){
     id
     nombre
     precio

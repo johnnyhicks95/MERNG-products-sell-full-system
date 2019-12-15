@@ -32,4 +32,14 @@ const productosSchema = new mongoose.Schema({
 // creo referencia de productos de una nueva tabla
 const Productos = mongoose.model('productos', productosSchema)
 
-export { Clientes, Productos }
+// Pedidos ******
+const pedidosSchema = new mongoose.Schema ({
+    pedido: Array,
+    total: Number,
+    fecha: Date,
+    cliente: String,
+    estado: String
+})
+const Pedidos = mongoose.model('pedidos', pedidosSchema)
+
+export { Clientes, Productos, Pedidos }

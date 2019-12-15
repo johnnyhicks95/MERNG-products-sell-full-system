@@ -28,7 +28,10 @@ class NuevoPedido extends Component {
                         />
                     </div>
                     <div className="col-md-9">
-                        <Query query={OBTENER_PRODUCTOS}>
+                        <Query query={OBTENER_PRODUCTOS}
+                            // agrego el filtro desde los resolvers-schema para tener el stock exacto
+                            variables={{stock: true}} 
+                        >
                             {({ loading, error, data }) => {
                                 // of loading muestra spinner
                                 if (loading) return (

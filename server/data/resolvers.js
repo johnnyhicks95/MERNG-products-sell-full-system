@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { Clientes, Productos } from './db'
+import { Clientes, Productos, Pedidos } from './db'
 import { rejects } from 'assert'
 
 
@@ -39,8 +39,13 @@ export const resolvers = {
         },
 
         //***********de los productos******* */
-        obtenerProductos : ( root, { limite, offset }) => {
-            return Productos.find({}).limit(limite).skip(offset)
+            // agrego stock para validacion de cantidad al hacer pedido
+        obtenerProductos : ( root, { limite, offset, stock }) => {
+            let filtro
+            if(stock) {
+                filtro = { stock: {$gt: 0}} // me traigo los productos en stock mayor que cero
+            }
+            return Productos.find(filtro).limit(limite).skip(offset)
         },
         // un solo producto como consulta a mongo
         obtenerProducto : ( root, { id }) => {
@@ -157,6 +162,40 @@ export const resolvers = {
                Productos.findOneAndDelete({ _id : id } , (error) => {
                    if ( error ) rejects ( error)
                    else resolve ( 'El producto se elimino correctamente! ' )
+               })
+           })
+       },
+       // NUEVO PEDIDO
+       nuevoPedido: ( root, { input } ) => {
+           const nuevoPedido = new Pedidos({
+               // construyo el objeto
+               pedido: input.pedido,
+               total: input.total,
+               fecha: new Date(),
+               cliente: input.cliente,
+               estado: "PENDIENTE" // generar opciones segun caso
+           })
+
+           nuevoPedido.id = nuevoPedido._id // id para la bd
+
+           // en las mutations usar promesas, ahora creo el objeto
+           return new Promise(( resolve, object ) => {
+
+                // recorrer y actualziar la cantidad de productos
+                input.pedido.forEach(pedido => {
+                    Productos.updateOne(
+                        { _id : pedido.id}, 
+                        { "$inc":  //inc : incrementa un campo especifico 
+                            { "stock":  -pedido.cantidad }  // va a restar la cantidad del sotck   
+                        }, function(error) {  // por ultimo recibe un callback
+                            if(error) return new Error(error)
+                        }
+                    )
+                })
+
+               nuevoPedido.save((error) => {
+                   if ( error) rejects(error)
+                   else resolve(nuevoPedido)
                })
            })
        }

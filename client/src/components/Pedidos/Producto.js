@@ -16,11 +16,16 @@ class Producto extends Component {
                     <td>{producto.stock}</td>
                     <td>
                         <input 
+                            min="1"
                             type = "number"
                             className="form-control"
-                            onChange={ e => 
+                            onChange={ e => {
+                                // valido que se eliga los productos segun el stock
+                                if(e.target.value > producto.stock) {
+                                    e.target.value = 0
+                                } 
                                 this.props.actualizarCantidad(e.target.value, this.props.index)
-                            }
+                            }}
                         />
                     </td>
                     <td>
