@@ -5,6 +5,9 @@ mongoose.Promise = global.Promise
 
 mongoose.connect('mongodb://localhost/clientes', {useNewUrlParser: true} )
 
+//para resolver el error setFindAndModify
+mongoose.set('setFindAndModify', false )
+
 //definimos el schema de los clientes como estaran en la bd
 const clientesSchema = new mongoose.Schema({
     nombre: String,
@@ -18,4 +21,25 @@ const clientesSchema = new mongoose.Schema({
 
 const Clientes = mongoose.model('clientes', clientesSchema)
 
-export { Clientes }
+/*  ************
+    modelo de datos : Productos 
+*/
+const productosSchema = new mongoose.Schema({
+    nombre: String,
+    precio: Number,
+    stock: Number
+})
+// creo referencia de productos de una nueva tabla
+const Productos = mongoose.model('productos', productosSchema)
+
+// Pedidos ******
+const pedidosSchema = new mongoose.Schema ({
+    pedido: Array,
+    total: Number,
+    fecha: Date,
+    cliente: String,
+    estado: String
+})
+const Pedidos = mongoose.model('pedidos', pedidosSchema)
+
+export { Clientes, Productos, Pedidos }

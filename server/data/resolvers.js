@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { Clientes } from './db'
+import { Clientes, Productos, Pedidos } from './db'
 import { rejects } from 'assert'
 
 
@@ -8,9 +8,11 @@ export const resolvers = {
     Query: {
 
         //para enlistar todos los clientes
-        getClientes: ( root, { limite }) => {
+        //paso offset para la paginacion
+        getClientes: ( root, { limite, offset }) => {
             //limit es un metodo de mongoose
-            return Clientes.find( {} ).limit(limite)
+            // metodo skip con el offset
+            return Clientes.find( {} ).limit(limite).skip(offset)
         },
 
         //trae un cliente segun el modelo de mongoose
@@ -24,7 +26,49 @@ export const resolvers = {
                 })
             } )
         },
+
+        //una nueva consulta para obtener el total de clientes en la bd
+        totalClientes: (root) => {
+            return new Promise((resolve, reject) => {
+                //Del modelo clientes usamos un metodo de mongoose para saber el total de datos
+                Clientes.countDocuments( {}, (error, count) => {
+                    if(error) rejects(error)
+                    else resolve(count)
+                } )
+            })
+        },
+
+        //***********de los productos******* */
+            // agrego stock para validacion de cantidad al hacer pedido
+        obtenerProductos : ( root, { limite, offset, stock }) => {
+            let filtro
+            if(stock) {
+                filtro = { stock: {$gt: 0}} // me traigo los productos en stock mayor que cero
+            }
+            return Productos.find(filtro).limit(limite).skip(offset)
+        },
+        // un solo producto como consulta a mongo
+        obtenerProducto : ( root, { id }) => {
+            return new Promise( (resolve, object) => {
+                Productos.findById(id, (error , producto ) => {
+                    // producto es el resultado de la consulta
+                    if (error) rejects (error)
+                    else resolve ( producto )
+                })
+            })
+        },
+         //una nueva consulta para obtener el total de clientes en la bd
+         totalProductos: (root) => {
+            return new Promise((resolve, reject) => {
+                //Del modelo clientes usamos un metodo de mongoose para saber el total de datos
+                Productos.countDocuments( {}, (error, count) => {
+                    if(error) rejects(error)
+                    else resolve(count)
+                } )
+            })
+        }
     },
+    
     Mutation: {
         crearCliente: (root, { input }) => {
             // viene desde debugger.js el objeto clientes
@@ -70,13 +114,91 @@ export const resolvers = {
         //Mutation para eliminar cliente por id segun schema.graphql
         eliminarCliente: (root, { id }) => {
             return new Promise( (resolve, object ) => {
-                Clientes.findOneAndRemove( {_id: id }, (error ) =>{
+                Clientes.findOneAndDelete( {_id: id }, (error ) =>{
                     if (error) rejects (error)
                     else resolve("El dato del cliente se eliminó correctamente")
                 } )
             })
-        }
+        },
 
+
+        /* *************
+        Nuevos Productos
+
+        ************ */
+       nuevoProducto: (root, { input }) => {
+           const nuevoProducto  = new Productos({
+               nombre: input.nombre, 
+               precio: input.precio,
+               stock: input.stock
+           })
+
+           // mongoDB crea el ID que se asigna al objeto
+           nuevoProducto.id = nuevoProducto._id;
+
+           return new Promise( (resolve, object) => {
+               // para guardar en la base de datos
+               nuevoProducto.save((error) => {
+                   if ( error ) rejects ( error )
+                   else resolve( nuevoProducto )
+               })
+           })
+       },
+
+       // actualizar producto
+       actualizarProducto : (root, {input}) => {
+           return new Promise(( resolve, producto ) => {
+               // { que se vaa actualizar} , con que quiero que actualize; si no existe, crealo, el callback
+               // ( { 1 }, 2 , 3 , 4 )
+                Productos.findOneAndUpdate( { _id: input.id }, input, {new: true}, (error, producto) => {
+                    if ( error ) rejects ( error)
+                    else resolve ( producto )
+                } )
+           })
+       },
+       // ELIMINAR PRODUCTO
+       eliminarProducto : ( root, {id} ) => {
+           return new Promise ( (resolve, producto ) => {
+               Productos.findOneAndDelete({ _id : id } , (error) => {
+                   if ( error ) rejects ( error)
+                   else resolve ( 'El producto se elimino correctamente! ' )
+               })
+           })
+       },
+       // NUEVO PEDIDO
+       nuevoPedido: ( root, { input } ) => {
+           const nuevoPedido = new Pedidos({
+               // construyo el objeto
+               pedido: input.pedido,
+               total: input.total,
+               fecha: new Date(),
+               cliente: input.cliente,
+               estado: "PENDIENTE" // generar opciones segun caso
+           })
+
+           nuevoPedido.id = nuevoPedido._id // id para la bd
+
+           // en las mutations usar promesas, ahora creo el objeto
+           return new Promise(( resolve, object ) => {
+
+                // recorrer y actualziar la cantidad de productos
+                input.pedido.forEach(pedido => {
+                    Productos.updateOne(
+                        { _id : pedido.id}, 
+                        { "$inc":  //inc : incrementa un campo especifico 
+                            { "stock":  -pedido.cantidad }  // va a restar la cantidad del sotck   
+                        }, function(error) {  // por ultimo recibe un callback
+                            if(error) return new Error(error)
+                        }
+                    )
+                })
+
+               nuevoPedido.save((error) => {
+                   if ( error) rejects(error)
+                   else resolve(nuevoPedido)
+               })
+           })
+       }
 
     }
 }
