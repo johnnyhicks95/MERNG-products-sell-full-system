@@ -66,10 +66,6 @@ type PedidoProducto {
         totalProductos: String  
     }
 
-    input PedidoInput {
-        producto: String
-        precio: Int
-    }
     input EmailInput {
         email: String
     }
@@ -99,7 +95,7 @@ type PedidoProducto {
     # PEDIDOS INPUT
     input PedidoInput {
         id: ID
-        pedido : [PedidoProductoInput]
+        pedido : [ PedidoProductoInput ]
         total: Int
         fecha: String
         cliente: ID

@@ -64,7 +64,7 @@ class ContenidoPedido extends Component {
         // agregamos al state los productos actualizados para mostrar
         this.setState({
             productos
-        }, ()=>{ // callback para actualizar estado
+        }, ()=>{ // callback para actualizar estado con el costo verdadero de los productos
             this.actualizarTotal()
         })
     }
@@ -73,11 +73,11 @@ class ContenidoPedido extends Component {
         // console.log(id)
         const productos = this.state.productos
 
-        const productosRestantes = productos.filter(producto => producto.id !== id)
+        const productosRestantes = productos.filter(producto => producto.id !== id)// filtro trae todos menos el que se elimina
 
-        this.setState({
+        this.setState({  // actualizo el state sin los productos eliminados
             productos: productosRestantes
-        }, () => { // callback  para actualizar estado
+        }, () => { // callback  para actualizar estado, sin el estado anterior
             this.actualizarTotal()
         })
     }
@@ -93,7 +93,7 @@ class ContenidoPedido extends Component {
             <>  
                 <h2 className="text-center mb-5">Seleccionar articulos</h2>
 
-                { mensaje }
+                { mensaje } // mensaje de error
 
                 <Select
                     onChange={this.seleccionarProducto} // para pasar a lestado
@@ -109,7 +109,7 @@ class ContenidoPedido extends Component {
                 />
 
                 <Resumen
-                    productos={this.state.productos}
+                    productos={this.state.productos} // del estado paso los productos a a la tabla
                     actualizarCantidad={this.actualizarCantidad}//metodo cantidad productos downcast
                     eliminarProducto={this.eliminarProducto}
                 />

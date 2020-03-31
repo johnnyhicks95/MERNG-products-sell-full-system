@@ -30,7 +30,7 @@ class NuevoPedido extends Component {
                     <div className="col-md-9">
                         <Query query={OBTENER_PRODUCTOS}
                             // agrego el filtro desde los resolvers-schema para tener el stock exacto
-                            variables={{stock: true}} 
+                            variables={{stock: true}}   //  el filtro para mostrar la existencia de productos
                         >
                             {({ loading, error, data }) => {
                                 // of loading muestra spinner

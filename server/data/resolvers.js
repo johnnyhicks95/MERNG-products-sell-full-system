@@ -42,7 +42,7 @@ export const resolvers = {
             // agrego stock para validacion de cantidad al hacer pedido
         obtenerProductos : ( root, { limite, offset, stock }) => {
             let filtro
-            if(stock) {
+            if(stock) {                     // srock son los productos en existencia
                 filtro = { stock: {$gt: 0}} // me traigo los productos en stock mayor que cero
             }
             return Productos.find(filtro).limit(limite).skip(offset)
@@ -127,7 +127,7 @@ export const resolvers = {
 
         ************ */
        nuevoProducto: (root, { input }) => {
-           const nuevoProducto  = new Productos({
+           const nuevoProducto  = new Productos({ // Modelos: es el modelo descrito en db.js
                nombre: input.nombre, 
                precio: input.precio,
                stock: input.stock
@@ -167,27 +167,27 @@ export const resolvers = {
        },
        // NUEVO PEDIDO
        nuevoPedido: ( root, { input } ) => {
-           const nuevoPedido = new Pedidos({
+           const nuevoPedido = new Pedidos({  // Pedidos: es el modelo descrito en db.js
                // construyo el objeto
                pedido: input.pedido,
                total: input.total,
-               fecha: new Date(),
+               fecha: new Date(), // genera la fecha actual
                cliente: input.cliente,
-               estado: "PENDIENTE" // generar opciones segun caso
+               estado: "PENDIENTE" // generar opciones segun caso, queda pendiente porque al crear un pedido esara pendiente
            })
 
            nuevoPedido.id = nuevoPedido._id // id para la bd
 
-           // en las mutations usar promesas, ahora creo el objeto
+           // en las mutations usar siempre promesas, ahora creo el objeto
            return new Promise(( resolve, object ) => {
 
                 // recorrer y actualziar la cantidad de productos
                 input.pedido.forEach(pedido => {
                     Productos.updateOne(
                         { _id : pedido.id}, 
-                        { "$inc":  //inc : incrementa un campo especifico 
-                            { "stock":  -pedido.cantidad }  // va a restar la cantidad del sotck   
-                        }, function(error) {  // por ultimo recibe un callback
+                        { "$inc":  //inc (funcion de mongo): incrementa un campo especifico 
+                            { "stock":  -pedido.cantidad }  // va a restar la cantidad del stock   
+                        }, function(error) {  // por ultimo recibe un callback para controlar errores 
                             if(error) return new Error(error)
                         }
                     )

@@ -22,7 +22,7 @@ class Producto extends Component {
                             onChange={ e => {
                                 // valido que se eliga los productos segun el stock
                                 if(e.target.value > producto.stock) {
-                                    e.target.value = 0
+                                    e.target.value = 0  // resetea a 0 si se pide mas productos que el stock
                                 } 
                                 this.props.actualizarCantidad(e.target.value, this.props.index)
                             }}

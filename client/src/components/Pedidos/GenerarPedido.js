@@ -5,6 +5,7 @@ import {NUEVO_PEDIDO} from '../../mutations'
 import { withRouter } from 'react-router-dom'
 
 const validarPedido = ( props ) => {
+    // let noValido = !props.productos || props.total === 0
     let noValido = !props.productos || props.total <= 0
     return noValido
 }
@@ -13,10 +14,10 @@ const GenerarPedido = (props) => {
     // console.log(props)
     return (
         <Mutation mutation={NUEVO_PEDIDO}
-            onCompleted={ () => props.history.push('/clientes')}
+            onCompleted={ () => props.history.push('/clientes')} // gracias al withrouter se crea el history
         >
             {
-                nuevoPedido => (
+                nuevoPedido => ( // corro la funcion del mutation 
                     <button
                     disabled={validarPedido(props)}
                         type="button"
@@ -25,10 +26,11 @@ const GenerarPedido = (props) => {
 
                             // console.log(props.productos)
                             // mapeo para crear una nueva variable con solamente el id y cantidad
+                            // objeto: contiene solo lo que se pide cantidad y ID
                             const productosInput = props.productos.map(({nombre, precio, stock, ...objeto}) => objeto)
                             // console.log(productosInput)
 
-                            const input = {
+                            const input = {  // es el objeto que recibo
                                 pedido: productosInput,
                                 total: props.total,
                                 cliente: props.idCliente

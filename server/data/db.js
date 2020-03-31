@@ -6,7 +6,7 @@ mongoose.Promise = global.Promise
 mongoose.connect('mongodb://localhost/clientes', {useNewUrlParser: true} )
 
 //para resolver el error setFindAndModify
-mongoose.set('setFindAndModify', false )
+// mongoose.set('setFindAndModify', false )  : update29 marzo 2020:co digo de un bug que mandaba error, ya no
 
 //definimos el schema de los clientes como estaran en la bd
 const clientesSchema = new mongoose.Schema({
@@ -34,6 +34,7 @@ const Productos = mongoose.model('productos', productosSchema)
 
 // Pedidos ******
 const pedidosSchema = new mongoose.Schema ({
+    // EL ID SE crea automaticamente gracias a mongoose
     pedido: Array,
     total: Number,
     fecha: Date,
