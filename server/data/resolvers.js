@@ -66,6 +66,18 @@ export const resolvers = {
                     else resolve(count)
                 } )
             })
+        },
+
+
+        // PARA LOS PEDIDOS  -  cliente : es el filtro(payload)
+        obtenerPedidos:(root, { cliente } ) => {
+            return new Promise( (resolve, object ) => {
+                // mongoose:   cliente(filtro) : Cliente( que deseamos buscar)
+                Pedidos.find( { cliente : cliente }, ( error, pedido ) => {
+                    if (error ) rejects ( error)
+                    else resolve ( pedido )
+                })
+            })
         }
     },
     
@@ -181,23 +193,54 @@ export const resolvers = {
            // en las mutations usar siempre promesas, ahora creo el objeto
            return new Promise(( resolve, object ) => {
 
+               nuevoPedido.save((error) => {
+                   if ( error) rejects(error)
+                   else resolve(nuevoPedido)
+               })
+           })
+       },
+
+       actualizarEstado : ( root, { input } ) => {
+           return new Promise ( ( resolve, object ) => {
+
+                // console.log(input)
+                const { estado } = input
+
+                let instruccion
+                if(estado === 'COMPLETADO' ){ // si el pedido esta completado se resta
+                    instruccion = '-'
+                } else if ( estado === 'CANCELADO'){ // si el pedido se cancela se suma
+                    instruccion = '+'
+                } 
+
                 // recorrer y actualziar la cantidad de productos
+                // update 2: recorre y actualiza la cantidad de productos en base al 
+                // estado del pedido
                 input.pedido.forEach(pedido => {
                     Productos.updateOne(
                         { _id : pedido.id}, 
                         { "$inc":  //inc (funcion de mongo): incrementa un campo especifico 
-                            { "stock":  -pedido.cantidad }  // va a restar la cantidad del stock   
+                            // { "stock":  -pedido.cantidad }  // va a restar la cantidad del stock   
+                            { "stock":  `${instruccion}${pedido.cantidad}` }  // va a restar la cantidad del stock segun estado 
                         }, function(error) {  // por ultimo recibe un callback para controlar errores 
                             if(error) return new Error(error)
                         }
                     )
                 })
 
-               nuevoPedido.save((error) => {
-                   if ( error) rejects(error)
-                   else resolve(nuevoPedido)
-               })
-           })
+
+               // primero: filtro que va actualizar(id); segundo: objeto( que se va a actualizar), 
+               // tercero: si no existe lo crea; cuarto: callback en caso de error o done
+               Pedidos.findOneAndUpdate( 
+                   { _id : input.id  }, 
+                   input,
+                   { new : true}, 
+                   ( error ) => {
+                    if (error) rejects( error )
+                    else resolve ( 'Se actualizo correctamente' )
+                   }
+                )
+           } )
        }
 
     }

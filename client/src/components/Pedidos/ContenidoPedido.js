@@ -93,7 +93,8 @@ class ContenidoPedido extends Component {
             <>  
                 <h2 className="text-center mb-5">Seleccionar articulos</h2>
 
-                { mensaje } // mensaje de error
+                {/* mensaje de error */}
+                { mensaje } 
 
                 <Select
                     onChange={this.seleccionarProducto} // para pasar a lestado

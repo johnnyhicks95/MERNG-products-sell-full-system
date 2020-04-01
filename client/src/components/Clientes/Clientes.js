@@ -109,6 +109,13 @@ class Clientes extends Component {
                                                         &#43; Nuevo pedido    
                                                     </Link>
 
+                                                    <Link 
+                                                        to={`/pedidos/${id}`}
+                                                        className="btn btn-primary d-block d-md-inline-block mr-2"
+                                                        >
+                                                        Ver pedidos    
+                                                    </Link>
+
                                                     <Mutation mutation={ELIMINAR_CLIENTE}
                                                         // para mandar el mensaje que viende desde el resolver
                                                         // lo que se configuro y tambien en el schema

@@ -3,7 +3,10 @@ import mongoose from 'mongoose';
 //llamamos por una promesa a mongoose
 mongoose.Promise = global.Promise
 
-mongoose.connect('mongodb://localhost/clientes', {useNewUrlParser: true} )
+mongoose.connect('mongodb://localhost/clientes', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true // actualizacion de la version >= 3.1.0 de agosto 2019
+} )
 
 //para resolver el error setFindAndModify
 // mongoose.set('setFindAndModify', false )  : update29 marzo 2020:co digo de un bug que mandaba error, ya no

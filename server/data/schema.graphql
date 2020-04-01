@@ -59,11 +59,18 @@ type PedidoProducto {
         #Nuevo metodo para contar el total de documentos
         totalClientes: String
 
+        obtenerProductos(limite: Int, offset: Int, stock: Boolean) : [Producto]
         #****************
         # PRODUCTOS
-        obtenerProductos(limite: Int, offset: Int, stock: Boolean) : [Producto]
         obtenerProducto(id: ID!): Producto
         totalProductos: String  
+
+
+
+        #****************
+        # PEDIDOS
+        obtenerPedidos( cliente: String ) : [Pedido]
+
     }
 
     input EmailInput {
@@ -123,4 +130,5 @@ type PedidoProducto {
 
         # PEDIDOS
         nuevoPedido(input: PedidoInput): Pedido
+        actualizarEstado(input: PedidoInput) : String 
     }
