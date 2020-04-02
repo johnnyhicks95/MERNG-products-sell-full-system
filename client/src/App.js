@@ -16,6 +16,8 @@ import EditarProducto from './components/Productos/EditarProducto'
 import NuevoPedido from './components/Pedidos/NuevoPedido'
 import PedidosCliente from './components/Pedidos/PedidosCliente'
 
+import Panel from './components/Panel/Panel'
+
 
 const client = new ApolloClient({
   //configuro el puerto del server para acceder a los schemas,resolvers, conecciones a mongo ...
@@ -51,6 +53,9 @@ function App() {
 
               <Route exact path="/pedidos/nuevo/:id" component={NuevoPedido}/>
               <Route exact path="/pedidos/:id" component={PedidosCliente}/>
+
+              <Route exat path="/panel" component={ Panel } />
+
             </Switch>  
           </div>
         </Fragment>

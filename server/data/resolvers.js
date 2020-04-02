@@ -78,6 +78,44 @@ export const resolvers = {
                     else resolve ( pedido )
                 })
             })
+        },
+
+
+        // LA CONSULTA A MONGO PARA CREAR LA GRAFICA
+        // DE CLIENTES QUE GASTAN MAS EN PRODUCTOS
+        topClientes: ( root ) => {
+            return new Promise (( resolve, object ) => {
+                 Pedidos.aggregate([    // codigo de mongo db, Pedidos viene de db.js
+                     {
+                         $match : { estado: "COMPLETADO" } // HACE EL FILTRO A BUSCAR
+                     },
+                     {
+                         $group : {
+                             _id : "$cliente",
+                             total: { $sum : "$total"}  //
+                         }
+                     },
+                     {
+                         $lookup: {             //hace una relacion entre tablas, deben ser mismo tipo
+                                                // crea una nueva tabla de consulta
+                             from: "clientes",      
+                             localField : '_id',
+                             foreignField: '_id',
+                             as: 'cliente'
+                         }
+                     },
+                     {
+                         $sort: { total: -1 }      // para que se ordene descendentemente
+                                                   // desde el mas grande
+                     },
+                     {
+                         $limit : 10    // cuantos resultados se quiere obtener
+                     }
+                 ], ( error, resultado ) => {
+                     if ( error ) rejects ( error )
+                     else resolve( resultado )
+                 } )
+            })
         }
     },
     

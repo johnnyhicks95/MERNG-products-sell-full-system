@@ -34,6 +34,12 @@ type PedidoProducto {
     }
 
 
+    type ClienteTotal {
+        total: Float
+        cliente: [Cliente]
+    }
+
+
 
     """ Asigna que tipo de cliente es """
     enum TipoCliente {
@@ -71,6 +77,10 @@ type PedidoProducto {
         # PEDIDOS
         obtenerPedidos( cliente: String ) : [Pedido]
 
+
+        #****************
+        # GRAFICAS
+        topClientes : [ClienteTotal]
     }
 
     input EmailInput {
