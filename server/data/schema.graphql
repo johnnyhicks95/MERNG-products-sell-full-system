@@ -141,4 +141,7 @@ type PedidoProducto {
         # PEDIDOS
         nuevoPedido(input: PedidoInput): Pedido
         actualizarEstado(input: PedidoInput) : String 
+
+        # usuarios
+        crearUsuario(usuario: String!, password: String!) : String
     }

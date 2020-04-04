@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { Clientes, Productos, Pedidos } from './db'
+import { Clientes, Productos, Pedidos, Usuarios } from './db'
 import { rejects } from 'assert'
 
 
@@ -279,7 +279,28 @@ export const resolvers = {
                    }
                 )
            } )
-       }
+       },
+
+       // va a ser una funcion asincrona para optimizar la busqueda
+       crearUsuario: async ( root, { usuario, password }) => {
+
+        // resivar si un usuario contiene ese password
+        // findOne: resvisa si al menos ha yun usuario con con ese usuario
+        const existeUsuario = await Usuarios.findOne({usuario})
+
+        if ( existeUsuario ){
+            throw new Error('El usuario ya existe')
+        }
+
+        // Usuarios: viene de db.js
+        const nuevoUsuario = await new Usuarios({
+            usuario,
+            password
+        }).save() // save: guardo en la base de datos
+
+        // console.log(nuevoUsuario) // ver que recibe el server
+        return "Usuario creado correctamente"
+       } 
 
     }
 }

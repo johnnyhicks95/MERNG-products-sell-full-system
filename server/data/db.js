@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import bcrypt from 'bcrypt'
 
 //llamamos por una promesa a mongoose
 mongoose.Promise = global.Promise
@@ -47,4 +48,35 @@ const pedidosSchema = new mongoose.Schema ({
 })
 const Pedidos = mongoose.model('pedidos', pedidosSchema)
 
-export { Clientes, Productos, Pedidos }
+
+// USUARIOS - autenticacion
+const usuariosSchema = new mongoose.Schema({
+    usuario: String,
+    password: String
+})
+
+// hashear los passwords antes de guardarlos en la base de datos
+// pre: funcion antes de guardar en la base de datos
+usuariosSchema.pre('save', function(next) {
+    //si el password no esta modificado ejecutar la siguiente funcion
+    if(!this.isModified('password')){
+        return next() // next: pasa a la siguiente funcion
+    }
+    bcrypt.genSalt(10, (err, salt) => {
+        if(err) return next(err)
+        
+        // si si se pudo generar el salt entonces ejecuta
+        // primero: que se hashea; segundo: el salt; tercero el callback: que hare con el hash
+        bcrypt.hash(this.password, salt, ( err, hash) => {
+            if(err) return next(err)
+
+            // en aso de que no
+            this.password = hash
+            next() // que continue el codigo
+        } )
+    })
+})
+
+const Usuarios = mongoose.model('usuarios', usuariosSchema)
+
+export { Clientes, Productos, Pedidos, Usuarios }

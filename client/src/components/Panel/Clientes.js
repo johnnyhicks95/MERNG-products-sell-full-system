@@ -4,14 +4,14 @@ import { TOP_CLIENTES } from '../../queries'
 
 
 // uso recharts para las graficas de clientes que mas dinero gastan comprando
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts'
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts'
 
 //ejemplo de estructuda de datos en recharts
 
-const datos = [
+/* const datos = [
     {name:'Page A', uv: 4000, pv: 2400, amt: 2400},
     {name:'Page B', uv: 3000, pv: 1398, amt: 2210}
-]
+] */
 
 const Clientes = ( ) => {
     return (

@@ -18,6 +18,10 @@ import PedidosCliente from './components/Pedidos/PedidosCliente'
 
 import Panel from './components/Panel/Panel'
 
+import Registro from './components/Auth/Registro'
+import Login from './components/Auth/Login'
+
+
 
 const client = new ApolloClient({
   //configuro el puerto del server para acceder a los schemas,resolvers, conecciones a mongo ...
@@ -32,6 +36,8 @@ const client = new ApolloClient({
     console.log('networkError', networkError)
   }
 })
+
+
 
 function App() {
   return (
@@ -55,6 +61,10 @@ function App() {
               <Route exact path="/pedidos/:id" component={PedidosCliente}/>
 
               <Route exat path="/panel" component={ Panel } />
+
+               <Route exat path="/login" component={ Login } />
+               <Route exat path="/registro" component={ Registro } />
+
 
             </Switch>  
           </div>
