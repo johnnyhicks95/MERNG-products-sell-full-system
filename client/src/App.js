@@ -1,7 +1,6 @@
-import React, { Fragment} from 'react';
-import { ApolloProvider } from 'react-apollo'
-import ApolloClient, { InMemoryCache } from 'apollo-boost'
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import React, { Fragment } from 'react';
+
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
 
 //importar components
 import Header from './components/Layout/Header'
@@ -21,33 +20,28 @@ import Panel from './components/Panel/Panel'
 import Registro from './components/Auth/Registro'
 import Login from './components/Auth/Login'
 
+import Session from './components/Session'
 
 
-const client = new ApolloClient({
-  //configuro el puerto del server para acceder a los schemas,resolvers, conecciones a mongo ...
-  uri: "http://localhost:4000/graphql",
-  //hago algo de cache de apollo boost
-  cache: new InMemoryCache({
-    addTypename: false
-  }),
-  // Para manejar error apollo mandara a consola el problema
-  onError:  ({ networkError, graphQLErrors}) => {
-    console.log('graphQLErrors', graphQLErrors)
-    console.log('networkError', networkError)
-  }
-})
+// es una sfc : para controlar la autenticacion de usuarios
+const App = ({ refetch, session }) => {
+  // console.log(session);
+  const { obtenerUsuario } = session
 
+  const mensaje = ( obtenerUsuario ) ? `Bienvenido: ${obtenerUsuario.usuario}` : <Redirect to="/login" />
 
-
-function App() {
+  /* function App() {'
+  
+  */
   return (
     //El apollo provider contendra a todas las funciones de Apollo
     // querys, mutations ...
-    <ApolloProvider client={client}>
+    // <ApolloProvider client={client}>
       <Router>
         <Fragment>
-          <Header />
+          <Header session={session} />
           <div className="container">
+            <p className="text-right" >{mensaje}</p>  
             <Switch>
               <Route exact path="/clientes" component={Clientes} />
               <Route exact path="/clientes/editar/:id" component={EditarCliente} />
@@ -57,21 +51,25 @@ function App() {
               <Route exact path="/productos" component={Productos} />
               <Route exact path="/productos/editar/:id" component={EditarProducto} />
 
-              <Route exact path="/pedidos/nuevo/:id" component={NuevoPedido}/>
-              <Route exact path="/pedidos/:id" component={PedidosCliente}/>
+              <Route exact path="/pedidos/nuevo/:id" component={NuevoPedido} />
+              <Route exact path="/pedidos/:id" component={PedidosCliente} />
 
-              <Route exat path="/panel" component={ Panel } />
+              <Route exact path="/panel" component={Panel} />
 
-               <Route exat path="/login" component={ Login } />
-               <Route exat path="/registro" component={ Registro } />
+              {/* <Route exact path="/login" component={Login} /> */}
+              <Route exact path="/login" render={ () => <Login refetch={refetch} /> } />
+              <Route exact path="/registro" component={Registro} />
 
-
-            </Switch>  
+            </Switch>
           </div>
         </Fragment>
       </Router>
-    </ApolloProvider>
+    // </ApolloProvider>
   );
 }
 
-export default App;
+// export default App;
+// de un HOC para controlar la session de los usuarios
+const RootSession = Session(App)
+
+export { RootSession }

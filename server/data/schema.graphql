@@ -39,6 +39,15 @@ type PedidoProducto {
         cliente: [Cliente]
     }
 
+    # abril 2020
+    type Token {
+        token: String!
+    }
+
+    type Usuario {
+        usuario: String
+    }
+
 
 
     """ Asigna que tipo de cliente es """
@@ -80,7 +89,13 @@ type PedidoProducto {
 
         #****************
         # GRAFICAS
-        topClientes : [ClienteTotal]
+        topClientes: [ClienteTotal]
+
+
+        #****************
+        # usuarios
+        obtenerUsuario: Usuario
+
     }
 
     input EmailInput {
@@ -144,4 +159,5 @@ type PedidoProducto {
 
         # usuarios
         crearUsuario(usuario: String!, password: String!) : String
+        autenticarUsuario(usuario: String!, password: String!): Token
     }

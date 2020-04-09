@@ -20,11 +20,11 @@ class Registro extends Component {
 
     // para borrar los datos en el state
     limpiarState = () => {
-        this.setState({...initialState}) 
+        this.setState({ ...initialState })
     }
 
     // para enviar el form a la base de datos
-    crearRegistro = (e, crearUsuario ) => { // crearUsuario, tambien debo enviar el mutation
+    crearRegistro = (e, crearUsuario) => { // crearUsuario, tambien debo enviar el mutation
         e.preventDefault()
         // console.log('Creando registro ...')
 
@@ -32,7 +32,7 @@ class Registro extends Component {
             // console.log(data)
             this.limpiarState()
 
-            // redireccion al login
+            // redireccion al login usando withRouter de react router-dom
             this.props.history.push('/login')
 
         })
@@ -74,16 +74,16 @@ class Registro extends Component {
                         mutation={NUEVO_USUARIO}
                         variables={{ usuario, password }}
                     >
- 
+
                         {(crearUsuario, { loading, error, data }) => {
 
                             return (
                                 <form
                                     className="col-md-8"
-                                    onSubmit = { e => this.crearRegistro(e, crearUsuario) } // e: paso el evento
+                                    onSubmit={e => this.crearRegistro(e, crearUsuario)} // e: paso el evento
                                 >
 
-                                    {error && <Error error={error} /> }
+                                    {error && <Error error={error} />}
 
                                     <div className="form-group">
                                         <label>Usuario</label>
@@ -104,7 +104,7 @@ class Registro extends Component {
                                             name="password"
                                             className="form-control"
                                             placeholder="Password"
-                                            value={ password }
+                                            value={password}
                                         />
                                     </div>
                                     <div className="form-group">
@@ -115,7 +115,7 @@ class Registro extends Component {
                                             name="repetirPassword"
                                             className="form-control"
                                             placeholder="Repetir Password"
-                                            value={ repetirPassword }
+                                            value={repetirPassword}
                                         />
                                     </div>
 
@@ -125,7 +125,7 @@ class Registro extends Component {
                                         className="btn btn-success float-right"
                                     >
                                         Crear Usuario
-                        </button>
+                                    </button>
                                 </form>
                             )
                         }}
