@@ -94,8 +94,8 @@ export const NUEVO_PEDIDO = gql`
 
  // autenticar usuario con token, crear un tiempo de sesion; lo mando al login
  export const AUTENTICAR_USUARIO = gql`
- mutation autentuzarUsuario( $usuario: String!, $password: String! ) {
-   autenticarUsuario(usuario: $usuario, nombre: $nombre ,password: $password, rol: $rol ){
+ mutation autenticarUsuario( $usuario: String!, $password: String! ) {
+   autenticarUsuario(usuario: $usuario ,password: $password ){
      token
    }
  }

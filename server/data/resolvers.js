@@ -326,7 +326,7 @@ export const resolvers = {
                 usuario,
                 nombre,
                 password,
-                rol
+                rolx
             }).save() // save: guardo en la base de datos
 
             // console.log(nuevoUsuario) // ver que recibe el server
