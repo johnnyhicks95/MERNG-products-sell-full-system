@@ -3,6 +3,9 @@ import { Clientes, Productos, Pedidos, Usuarios } from './db'
 import { rejects } from 'assert'
 import bcrypt from 'bcrypt'
 
+// 0.30 : filtrando vendedor y sus clientes
+const ObjectId = mongoose.Types.ObjectId  // convierte los strings a ObjectsId
+
 // generar token
 import dotenv from 'dotenv'
 dotenv.config({ path: 'variables.env' })
@@ -22,10 +25,16 @@ export const resolvers = {
 
         //para enlistar todos los clientes
         //paso offset para la paginacion
-        getClientes: (root, { limite, offset }) => {
+        getClientes: (root, { limite, offset, vendedor }) => {
+            // 0.30: recibo un id de vendedor para hacer e lfiltro de quien le dio de alta
+            let filtro
+            if(vendedor){
+                filtro = {vendedor: new ObjectId( vendedor ) } // convierto el id en un string 
+            }
+
             //limit es un metodo de mongoose
             // metodo skip con el offset
-            return Clientes.find({}).limit(limite).skip(offset)
+            return Clientes.find({filtro}).limit(limite).skip(offset)  // filtro : filtrar clientes por vendedor
         },
 
         //trae un cliente segun el modelo de mongoose
@@ -157,7 +166,8 @@ export const resolvers = {
                 emails: input.emails,
                 edad: input.edad,
                 tipo: input.tipo,
-                pedidos: input.pedidos
+                pedidos: input.pedidos,
+                vendedor: input.vendedor
             })
             nuevoCliente.id = nuevoCliente._id
 
@@ -326,7 +336,7 @@ export const resolvers = {
                 usuario,
                 nombre,
                 password,
-                rolx
+                rol
             }).save() // save: guardo en la base de datos
 
             // console.log(nuevoUsuario) // ver que recibe el server

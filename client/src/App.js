@@ -43,9 +43,12 @@ const App = ({ refetch, session }) => {
           <div className="container">
             <p className="text-right" >{mensaje}</p>  
             <Switch>
-              <Route exact path="/clientes" component={Clientes} />
+              {/* <Route exact path="/clientes" component={Clientes}  - 
+              o.30: modified to pass props ID and filter who created his own client /> */}
+              <Route exact path="/clientes" render={ () => <Clientes session={session} /> } />
               <Route exact path="/clientes/editar/:id" component={EditarCliente} />
-              <Route exact path="/clientes/nuevo" component={NuevoCliente} />
+              {/* <Route exact path="/clientes/nuevo" component={NuevoCliente} />   modified in 0.30 to pass props: id*/}
+              <Route exact path="/clientes/nuevo" render={ () => <NuevoCliente session={session} /> } />
 
               <Route exact path="/productos/nuevo" component={NuevoProducto} />
               <Route exact path="/productos" component={Productos} />

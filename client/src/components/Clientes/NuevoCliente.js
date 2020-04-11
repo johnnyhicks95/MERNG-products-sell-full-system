@@ -1,8 +1,9 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component} from 'react'
 
 //traigo los mutations
 import { NUEVO_CLIENTE } from '../../mutations'
 import { Mutation } from 'react-apollo'
+import { withRouter } from 'react-router-dom' 
 
 class NuevoCliente extends Component {
 
@@ -56,6 +57,12 @@ class NuevoCliente extends Component {
     }
 
     render() {
+
+        // 0.30 modifying to get the vendedor id
+        // console.log(this.props.session.obtenerUsuario.id);
+        const idVendedor = this.props.session.obtenerUsuario.id
+        
+
         // la parte de la ui que mostrara un mensaje de error o no, dependiendo la validacion
         const { error } = this.state
         let respuesta = ( error ) ? <p className="alert alert-danger p-3 text-center">
@@ -63,7 +70,7 @@ class NuevoCliente extends Component {
         </p>  : ''
 
         return (
-            <Fragment>
+            <>
                 {/* Formulario que contiene los inputs de la pagina: nuevo cliente */}
                 <h2 className="text-center ">Nuevo Cliente</h2>
 
@@ -112,7 +119,8 @@ class NuevoCliente extends Component {
             //Tener cuidad porque los datos se envian en string, si es numero usar un metodo para convertir en numero
                                         edad: Number(edad),
                                         tipo,
-                                        emails
+                                        emails,
+                                        vendedor: idVendedor
                                     }
 
                                     // console.log(input)
@@ -244,9 +252,9 @@ class NuevoCliente extends Component {
                         ) }
                     </Mutation>
                 </div>
-            </Fragment>
+            </>
         )
     }
 }
 
-export default NuevoCliente
+export default withRouter(NuevoCliente)

@@ -52,11 +52,26 @@ class Clientes extends Component {
 
     render() {
 
+
+        // Alertas en caso de que se crea el perfil del cliente
         const { alerta: { mostrar, mensaje } } = this.state
 
         const alerta = (mostrar)
             ? <Exito mensaje={mensaje} />
             : ''
+
+        // Obtiene el ID del vendedor para mostrar sus clientes
+        // console.log(this.props.session.obtenerUsuario.id);
+
+        // const id = this.props.session.obtenerUsuario.id 
+        let id 
+        const { rol } = this.props.session.obtenerUsuario
+
+        if( rol === 'VENDEDOR' ) {
+            id = this.props.session.obtenerUsuario.id 
+        } else {
+            id = ''  // 0.30: al tener el id vacio el resolver filtra todo en el resolver
+        }
 
         return (
 
@@ -67,7 +82,8 @@ class Clientes extends Component {
                 //paso la siguiente query para paginar: limite y offset de getClientes
                 variables={{
                     limite: this.limite,
-                    offset: this.state.paginador.offset
+                    offset: this.state.paginador.offset,
+                    vendedor: id  // 0.30 filtro de clientes y vendedores
                 }}
             >
                 {/* estos parametros ajustan
