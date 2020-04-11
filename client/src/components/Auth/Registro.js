@@ -145,7 +145,7 @@ class Registro extends Component {
 
                                         <select 
                                             className="form-control"
-                                            value={ rol }
+                                            value={rol}
                                             name="rol"
                                             onChange={ this.actualizarState }
                                         >
