@@ -52,7 +52,9 @@ const Pedidos = mongoose.model('pedidos', pedidosSchema)
 // USUARIOS - autenticacion
 const usuariosSchema = new mongoose.Schema({
     usuario: String,
-    password: String
+    nombre: String,
+    password: String,
+    rol: String
 })
 
 // hashear los passwords antes de guardarlos en la base de datos

@@ -86,7 +86,10 @@ query topClientes {
 export const USUARIO_ACTUAL = gql `
 query obtenerUsuario {
   obtenerUsuario{
+    id
     usuario
+    nombre
+    rol
   }
 }
 `

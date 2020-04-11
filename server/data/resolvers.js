@@ -311,7 +311,7 @@ export const resolvers = {
         },
 
         // va a ser una funcion asincrona para optimizar la busqueda
-        crearUsuario: async (root, { usuario, password }) => {
+        crearUsuario: async (root, { usuario,nombre, password, rol  }) => {
 
             // resivar si un usuario contiene ese password
             // findOne: resvisa si al menos ha yun usuario con con ese usuario
@@ -324,7 +324,9 @@ export const resolvers = {
             // Usuarios: viene de db.js
             const nuevoUsuario = await new Usuarios({
                 usuario,
-                password
+                nombre,
+                password,
+                rol
             }).save() // save: guardo en la base de datos
 
             // console.log(nuevoUsuario) // ver que recibe el server

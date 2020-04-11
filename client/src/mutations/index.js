@@ -87,7 +87,7 @@ export const NUEVO_PEDIDO = gql`
 
  //  USUARIOS
  export const NUEVO_USUARIO = gql `
- mutation crearUsuario($usuario: String!, $password: String!){
+ mutation crearUsuario($usuario: String!, $nombre: String! ,$password: String!, $rol: String! ){
    crearUsuario(usuario: $usuario, password: $password )
  }
  `
@@ -95,7 +95,7 @@ export const NUEVO_PEDIDO = gql`
  // autenticar usuario con token, crear un tiempo de sesion; lo mando al login
  export const AUTENTICAR_USUARIO = gql`
  mutation autentuzarUsuario( $usuario: String!, $password: String! ) {
-   autenticarUsuario(usuario: $usuario, password: $password ){
+   autenticarUsuario(usuario: $usuario, nombre: $nombre ,password: $password, rol: $rol ){
      token
    }
  }

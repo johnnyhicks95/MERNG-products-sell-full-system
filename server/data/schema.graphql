@@ -46,6 +46,9 @@ type PedidoProducto {
 
     type Usuario {
         usuario: String
+        id: ID
+        nombre: String
+        rol: String
     }
 
 
@@ -95,6 +98,8 @@ type PedidoProducto {
         #****************
         # usuarios
         obtenerUsuario: Usuario
+
+
 
     }
 
@@ -158,6 +163,6 @@ type PedidoProducto {
         actualizarEstado(input: PedidoInput) : String 
 
         # usuarios
-        crearUsuario(usuario: String!, password: String!) : String
+        crearUsuario(usuario: String!, nombre: String! ,password: String!, rol: String! ) : String
         autenticarUsuario(usuario: String!, password: String!): Token
     }

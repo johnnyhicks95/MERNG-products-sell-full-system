@@ -28,7 +28,7 @@ const App = ({ refetch, session }) => {
   // console.log(session);
   const { obtenerUsuario } = session
 
-  const mensaje = ( obtenerUsuario ) ? `Bienvenido: ${obtenerUsuario.usuario}` : <Redirect to="/login" />
+  const mensaje = ( obtenerUsuario ) ? `Bienvenido: ${obtenerUsuario.nombre}` : <Redirect to="/login" />
 
   /* function App() {'
   
