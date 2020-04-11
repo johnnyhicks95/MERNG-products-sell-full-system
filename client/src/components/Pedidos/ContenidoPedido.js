@@ -125,6 +125,7 @@ class ContenidoPedido extends Component {
                     productos={this.state.productos} // paso como props al component
                     total={this.state.total}
                     idCliente={this.props.id}
+                    idVendedor={this.props.idVendedor}  // 0.32 paso del padre el id del vendedoraqui
                 />
             </>
         )

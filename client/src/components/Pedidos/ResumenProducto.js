@@ -5,7 +5,7 @@ import React from 'react'
 const ResumenProducto = ( { cantidad, producto }) => {
     return (
         <> 
-            <div className="border mb-4 p-4" >
+            <div className="contenedor-productos mb-4 p-4" >
                 <p className="card-text font-weight-bold" >
                     Nombre del producto: 
                     <span className="font-weight-normal" > { producto.nombre } </span>

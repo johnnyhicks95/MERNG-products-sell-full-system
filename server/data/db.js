@@ -45,7 +45,8 @@ const pedidosSchema = new mongoose.Schema ({
     fecha: Date,
     // cliente: String,
     cliente: mongoose.Types.ObjectId, // 0.27 $lookup, graficas de ventas
-    estado: String
+    estado: String,
+    vendedor: mongoose.Types.ObjectId  // 0.32: referenciad: vendedor-pedido
 })
 const Pedidos = mongoose.model('pedidos', pedidosSchema)
 

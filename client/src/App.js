@@ -54,7 +54,8 @@ const App = ({ refetch, session }) => {
               <Route exact path="/productos" component={Productos} />
               <Route exact path="/productos/editar/:id" component={EditarProducto} />
 
-              <Route exact path="/pedidos/nuevo/:id" component={NuevoPedido} />
+              {/* <Route exact path="/pedidos/nuevo/:id" component={NuevoPedido} />  0.32 : referencia vendedor-pedido */}
+              <Route exact path="/pedidos/nuevo/:id" render={ () => <NuevoPedido session={session} /> } />
               <Route exact path="/pedidos/:id" component={PedidosCliente} />
 
               <Route exact path="/panel" component={Panel} />

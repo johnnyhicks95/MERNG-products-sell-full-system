@@ -33,7 +33,8 @@ const GenerarPedido = (props) => {
                             const input = {  // es el objeto que recibo
                                 pedido: productosInput,
                                 total: props.total,
-                                cliente: props.idCliente
+                                cliente: props.idCliente,
+                                vendedor: props.idVendedor // 0.32: recibo del padre el id vendedor
                             }
                             // console.log(input)
                             nuevoPedido({ // ejecuto la funcion para crear el pedido

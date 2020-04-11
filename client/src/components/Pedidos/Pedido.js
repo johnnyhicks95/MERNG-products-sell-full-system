@@ -6,28 +6,29 @@ import { Query, Mutation } from 'react-apollo'
 import { ACTUALIZAR_ESTADO } from '../../mutations'
 
 import ResumenProducto from './ResumenProducto'
+import '../../pedidos.css'
 
 const Pedido = (props) => {
 
     const { pedido } = props
     // console.log(pedido)
-    
-    
+
+
     const { id } = pedido
     // console.log(id)
-    
+
     // console.log(typeof pedido.fecha)
     // console.log(Number(pedido.fecha))
     // convierto el string-timestamp  a tipo fecha
     const fecha = new Date(Number(pedido.fecha))
-    
+
     // para cambiar el COLOR segun el ESTADO
-    const { estado } = pedido  
+    const { estado } = pedido
     // console.log(estado)
     let clase  // va a tomar el valor segun el estado
-    if(estado === 'PENDIENTE'){
+    if (estado === 'PENDIENTE') {
         clase = 'border-light'
-    } else if ( estado === 'CANCELADO' ){
+    } else if (estado === 'CANCELADO') {
         clase = 'border-danger'
     } else {
         clase = 'border-success '
@@ -35,7 +36,7 @@ const Pedido = (props) => {
 
     return (
         <div className="col-md-4 ">
-           <div className={`card mb-3 ${clase}`} >  {/*  ${clase}: da la clase segun el estado */}
+            <div className={`card mb-3 ${clase}`} >  {/*  ${clase}: da la clase segun el estado */}
                 <div className="card-body">
                     <p className="card-text font-weight-bold ">Estado:
                         <Mutation
@@ -78,11 +79,9 @@ const Pedido = (props) => {
                     <p className="card-text font-weight-bold">Fecha Pedido:
                         <span className="font-weight-normal"> {fecha.toLocaleString("es-EC")} </span>
                     </p>
-                    <p className="card-text font-weight-bold">Total:
-                        <span className="font-weight-normal"> $ {pedido.total} </span>
-                    </p>
 
-                    <h3 className="card-text text-center mb-3">Artículos del pedido</h3>
+
+                    <h3 className="card-text text-center mb-3 resaltar-texto ">Artículos del pedido</h3>
                     {pedido.pedido.map((producto, index) => { // index es el indice para evitar repetir la key
                         {/* console.log(producto) */ }
                         {/* el id es del producto de pedido */ }
@@ -112,6 +111,12 @@ const Pedido = (props) => {
                             </Query>
                         )
                     })}
+
+                    <div className="d-flex align-items-center justify-content-end" >
+                    <p className="card-text resaltar-texto mr-1 bg-amarillo ">Total: </p>
+                    <p className="font-weight-normal inc-texto"> $ {pedido.total} </p>
+                    </div>
+
                 </div>
             </div>
         </div>

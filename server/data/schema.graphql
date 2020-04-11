@@ -38,6 +38,10 @@ type PedidoProducto {
         total: Float
         cliente: [Cliente]
     }
+    type VendedorTotal {
+        total: Float
+        vendedor: [Usuario]
+    }
 
     # abril 2020
     type Token {
@@ -75,7 +79,7 @@ type PedidoProducto {
         getCliente(id: ID): Cliente
 
         #Nuevo metodo para contar el total de documentos
-        totalClientes: String
+        totalClientes(vendedor: String): String
 
         obtenerProductos(limite: Int, offset: Int, stock: Boolean) : [Producto]
         #****************
@@ -93,6 +97,7 @@ type PedidoProducto {
         #****************
         # GRAFICAS
         topClientes: [ClienteTotal]
+        topVendedores: [VendedorTotal]
 
 
         #****************
@@ -138,6 +143,7 @@ type PedidoProducto {
         fecha: String
         cliente: ID
         estado: EstadoPedido
+        vendedor: ID
     }
 
     input PedidoProductoInput {

@@ -12,10 +12,10 @@ dotenv.config({ path: 'variables.env' })
 
 import jwt from 'jsonwebtoken'
 // toma 3 parametros: el usuario, llave secreta, expira
-const crearToken = ( usuarioLogin, secreto, expiresIn ) => {
+const crearToken = (usuarioLogin, secreto, expiresIn) => {
     const { usuario } = usuarioLogin
 
-    return jwt.sign( {usuario}, secreto, { expiresIn } )
+    return jwt.sign({ usuario }, secreto, { expiresIn })
 }
 
 
@@ -28,13 +28,13 @@ export const resolvers = {
         getClientes: (root, { limite, offset, vendedor }) => {
             // 0.30: recibo un id de vendedor para hacer e lfiltro de quien le dio de alta
             let filtro
-            if(vendedor){
-                filtro = {vendedor: new ObjectId( vendedor ) } // convierto el id en un string 
+            if (vendedor) {
+                filtro = { vendedor: new ObjectId(vendedor) } // convierto el id en un string 
             }
 
             //limit es un metodo de mongoose
             // metodo skip con el offset
-            return Clientes.find({filtro}).limit(limite).skip(offset)  // filtro : filtrar clientes por vendedor
+            return Clientes.find({ filtro }).limit(limite).skip(offset)  // filtro : filtrar clientes por vendedor
         },
 
         //trae un cliente segun el modelo de mongoose
@@ -50,10 +50,16 @@ export const resolvers = {
         },
 
         //una nueva consulta para obtener el total de clientes en la bd
-        totalClientes: (root) => {
-            return new Promise((resolve, reject) => {
+        totalClientes: (root, { vendedor }) => {
+            return new Promise((resolve, object) => {
+                // 0.32 ultimos ajustes de paginador
+                let filtro
+                if (vendedor) {
+                    filtro = { vendedor: new ObjectId(vendedor) } // convierto el id en un string 
+                }
+
                 //Del modelo clientes usamos un metodo de mongoose para saber el total de datos
-                Clientes.countDocuments({}, (error, count) => {
+                Clientes.countDocuments(filtro, (error, count) => {
                     if (error) rejects(error)
                     else resolve(count)
                 })
@@ -140,19 +146,56 @@ export const resolvers = {
             })
         },
 
+        // 0.32 para hacer una consulta de que vendedores tienen mas ganacias por ventas completadas
+
+        topVendedores: (root) => {
+            return new Promise((resolve, object) => {
+                Pedidos.aggregate([    // codigo de mongo db, Pedidos viene de db.js
+                    {
+                        $match: { estado: "COMPLETADO" } // HACE EL FILTRO A BUSCAR
+                    },
+                    {
+                        $group: {
+                            _id: "$vendedor",
+                            total: { $sum: "$total" }  //
+                        }
+                    },
+                    {
+                        $lookup: {             //hace una relacion entre tablas, deben ser mismo tipo
+                            // crea una nueva tabla de consulta
+                            from: "usuarios",
+                            localField: '_id',
+                            foreignField: '_id',
+                            as: 'vendedor'
+                        }
+                    },
+                    {
+                        $sort: { total: -1 }      // para que se ordene descendentemente
+                        // desde el mas grande
+                    },
+                    {
+                        $limit: 10    // cuantos resultados se quiere obtener
+                    }
+                ], (error, resultado) => {
+                    if (error) rejects(error)
+                    else resolve(resultado)
+                })
+            })
+        },
+
         // para la verificacion de usuarios a traves del token 
         // enviado del frontend a lback
-        obtenerUsuario: ( root, args, { usuarioActual } ) => {
+        obtenerUsuario: (root, args, { usuarioActual }) => {
             // usuarioActual es el usuario que obtenemos el token
-            if( !usuarioActual ){
+            if (!usuarioActual) {
                 return null
             }
             console.log(usuarioActual);
 
             // obtener el usuario actual del request JWT verificado
-            const usuario = Usuarios.findOne( { usuario: usuarioActual.usuario } )
+            const usuario = Usuarios.findOne({ usuario: usuarioActual.usuario })
             return usuario
-            
+
         }
     },
 
@@ -261,7 +304,8 @@ export const resolvers = {
                 total: input.total,
                 fecha: new Date(), // genera la fecha actual
                 cliente: input.cliente,
-                estado: "PENDIENTE" // generar opciones segun caso, queda pendiente porque al crear un pedido esara pendiente
+                estado: "PENDIENTE", // generar opciones segun caso, queda pendiente porque al crear un pedido esara pendiente
+                vendedor: input.vendedor  // 0.32: referencia vendedor-pedido
             })
 
             nuevoPedido.id = nuevoPedido._id // id para la bd
@@ -321,7 +365,7 @@ export const resolvers = {
         },
 
         // va a ser una funcion asincrona para optimizar la busqueda
-        crearUsuario: async (root, { usuario,nombre, password, rol  }) => {
+        crearUsuario: async (root, { usuario, nombre, password, rol }) => {
 
             // resivar si un usuario contiene ese password
             // findOne: resvisa si al menos ha yun usuario con con ese usuario
@@ -353,19 +397,19 @@ export const resolvers = {
             }
 
             // si el usuario existe revisa la contrase;a 
-            const passwordCorrecto = await bcrypt.compare( 
-                password, nombreUsuario.password )  // compara el password del front con el de la bd
-            
+            const passwordCorrecto = await bcrypt.compare(
+                password, nombreUsuario.password)  // compara el password del front con el de la bd
+
             // si el password es incorrecto
-            if ( !passwordCorrecto ){
+            if (!passwordCorrecto) {
                 // return "Password incorrecto!"
                 throw new Error('Password incorrecto! ')
-            } 
+            }
             /* else {
                 return "Password correcto! "
             } */
             return {
-                token: crearToken( nombreUsuario, process.env.SECRETO, '3hr' )
+                token: crearToken(nombreUsuario, process.env.SECRETO, '3hr')
             }
         }
     }

@@ -8,7 +8,7 @@ export const CLIENTES_QUERY = gql`
         apellido
         empresa
       }
-      totalClientes
+      totalClientes(vendedor: $vendedor)
     }
 `
 
@@ -75,6 +75,16 @@ query topClientes {
   topClientes{
     total
     cliente{
+      nombre
+    }
+  }
+}
+`
+export const TOP_VENDEDORES = gql `
+query topVendedores {
+  topVendedores{
+    total
+    vendedor {
       nombre
     }
   }

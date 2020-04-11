@@ -190,7 +190,7 @@ class Clientes extends Component {
                             <Paginador
                                 actual={this.state.paginador.actual}
                                 // llamo el total de clientes queri
-                                totalClientes={data.totalClientes}
+                                total={data.totalClientes}
                                 //paso el limite para regular el paginador la cantidad
                                 limite={this.limite}
                                 //paso los metodos

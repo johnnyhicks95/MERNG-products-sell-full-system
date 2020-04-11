@@ -6,6 +6,8 @@ import { OBTENER_PRODUCTOS } from '../../queries'
 
 import ContenidoPedido from './ContenidoPedido'
 
+import { withRouter } from 'react-router-dom'
+
 import '../../spinner.css'
 
 class NuevoPedido extends Component {
@@ -15,6 +17,13 @@ class NuevoPedido extends Component {
 
         // el id del router para pasar a componentes hijos
         const { id } = this.props.match.params
+
+        // 0.32 : paso los parametros de session usando react-router
+        // console.log(this.props.session);
+        // obtener el id del vendedor actual
+        const idVendedor = this.props.session.obtenerUsuario.id
+
+        
 
         return (
 
@@ -59,6 +68,7 @@ class NuevoPedido extends Component {
                                     <ContenidoPedido
                                         productos={data.obtenerProductos}
                                         id={id} // id del cliente
+                                        idVendedor={idVendedor}  // 0.32 : paso el id del vendedor
                                     />
                                 )
                             }}
@@ -71,4 +81,4 @@ class NuevoPedido extends Component {
     }
 }
 
-export default NuevoPedido
+export default withRouter(NuevoPedido)
