@@ -66,6 +66,8 @@ class Clientes extends Component {
         // const id = this.props.session.obtenerUsuario.id 
         let id 
         const { rol } = this.props.session.obtenerUsuario
+        // console.log(rol);
+        
 
         if( rol === 'VENDEDOR' ) {
             id = this.props.session.obtenerUsuario.id 

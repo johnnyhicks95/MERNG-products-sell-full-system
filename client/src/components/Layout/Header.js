@@ -2,10 +2,13 @@ import React from 'react';
 import { Link } from 'react-router-dom'
 
 import CerrarSesion from './CerrarSesion'
+import BotonRegistro from './BotonRegistro'
 
 const Header = ({ session }) => {
     // console.log(session);
-    let barra = (session.obtenerUsuario) ? <NavegacionAutenticado /> : <NavegacionNoAutenticado />
+    let barra = (session.obtenerUsuario) 
+        ? <NavegacionAutenticado session={session} /> 
+        : <NavegacionNoAutenticado />
 
     return (
         <>
@@ -24,7 +27,7 @@ const NavegacionNoAutenticado = () => (
 
 )
 
-const NavegacionAutenticado = () => (
+const NavegacionAutenticado = (session) => (
     <>
         <Link to="/" className="navbar-brand text-light font-weight-bold">CRM</Link>
         {/* <a className="navbar-brand text-light font-weight-bold">CRM</a> */}
@@ -75,6 +78,7 @@ const NavegacionAutenticado = () => (
                     </div>
 
                 </li>
+                <BotonRegistro session={session} />
                 <CerrarSesion />
             </ul>
         </div>

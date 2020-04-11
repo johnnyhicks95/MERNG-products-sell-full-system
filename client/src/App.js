@@ -61,7 +61,9 @@ const App = ({ refetch, session }) => {
 
               {/* <Route exact path="/login" component={Login} /> */}
               <Route exact path="/login" render={ () => <Login refetch={refetch} /> } />
-              <Route exact path="/registro" component={Registro} />
+              {/* <Route exact path="/registro" component={Registro} />
+              0.31 : mostrando el contenido si es administrador o si es vendedor */}
+              <Route exact path="/registro" render={ () => <Registro session={session} /> } />
 
             </Switch>
           </div>

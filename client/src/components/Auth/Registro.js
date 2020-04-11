@@ -4,7 +4,7 @@ import { NUEVO_USUARIO } from "../../mutations"
 
 import Error from '../Alertas/Error'
 
-import { withRouter } from 'react-router-dom'
+import { withRouter, Redirect } from 'react-router-dom'
 
 
 const initialState = {
@@ -66,8 +66,17 @@ class Registro extends Component {
         // declaro las variables que voy a usar
         const { usuario, password, repetirPassword, nombre, rol } = this.state
 
+        // 031 mostrando si es admin o vendedor
+        console.log(this.props.session);
+        const rolUsuario = this.props.session.obtenerUsuario.rol
+        const redireccion = (rolUsuario !== 'ADMINISTRADOR') 
+            ? <Redirect to="/clientes" />
+            : ''
+        
+
         return (
             <>
+            {redireccion}
                 <h1 className="text-center mb-5">Nuevo Usuario</h1>
                 <div className="row  justify-content-center">
 
