@@ -77,7 +77,7 @@ class Clientes extends Component {
 
         return (
 
-            //query es un metodo de react-apollo que se pasa como parametro
+            //query es un metodo de react-apollo que se pasa como paragmetro
             <Query query={CLIENTES_QUERY}
                 //define el intervalo de tiempo que va a hacer la peticion a la base de datos
                 pollInterval={1000}

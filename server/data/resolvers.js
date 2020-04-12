@@ -202,7 +202,7 @@ export const resolvers = {
     Mutation: {
         crearCliente: (root, { input }) => {
             // viene desde debugger.js el objeto clientes
-            const nuevoCliente = Clientes({
+            const nuevoCliente = new Clientes({
                 nombre: input.nombre,
                 apellido: input.apellido,
                 empresa: input.empresa,
